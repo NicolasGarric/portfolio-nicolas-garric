@@ -16,7 +16,7 @@ const games = [
         description: 'Détruit tous les blocs avec ta balle et ta raquette.',
         emoji: '🧱',
         path: '/games/breakout',
-        available: false,
+        available: true,
     },
     {
         title: 'Mémory',
