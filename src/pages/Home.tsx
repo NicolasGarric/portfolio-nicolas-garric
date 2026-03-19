@@ -23,7 +23,7 @@ const games = [
         description: 'Retrouve toutes les paires de cartes le plus vite possible.',
         emoji: '🃏',
         path: '/games/memory',
-        available: false,
+        available: true,
     },
 ]
 

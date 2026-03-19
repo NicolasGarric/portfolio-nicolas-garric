@@ -1,0 +1,77 @@
+.auth {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 8rem 2.4rem;
+}
+
+.auth__header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.auth__title {
+    font-size: 3.6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #845ef7, #339af0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.2rem;
+}
+
+.auth__subtitle {
+    font-size: 1.6rem;
+    color: #aaaaaa;
+}
+
+.auth__form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    background-color: #1a1a1a;
+    border: 0.1rem solid #2a2a2a;
+    border-radius: 1.6rem;
+    padding: 4rem;
+}
+
+.form__group--checkbox {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.form__checkbox {
+    width: 1.8rem;
+    height: 1.8rem;
+    cursor: pointer;
+    accent-color: #845ef7;
+}
+
+.form__label--checkbox {
+    font-size: 1.4rem;
+    color: #cccccc;
+    cursor: pointer;
+}
+
+.auth__notice {
+    font-size: 1.3rem;
+    color: #666666;
+    text-align: center;
+}
+
+.auth__switch {
+    font-size: 1.4rem;
+    color: #aaaaaa;
+    text-align: center;
+}
+
+.auth__link {
+    color: #845ef7;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.auth__link:hover {
+    opacity: 0.8;
+}

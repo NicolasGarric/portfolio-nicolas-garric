@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './Breakout.css'
+import { useScore } from '../hooks/useScore'
 
 const TICK_RATE = 16 // ~60fps
 
@@ -23,6 +24,7 @@ function Breakout() {
     const [won, setWon] = useState(false)
     const [started, setStarted] = useState(false)
     const [wasmReady, setWasmReady] = useState(false)
+    const { saveScore } = useScore()
 
     // Charge le WASM au démarrage
     useEffect(() => {
@@ -116,9 +118,17 @@ function Breakout() {
             setScore(currentScore)
             setLives(currentLives)
 
-            if (isGameOver) { setGameOver(true); return }
-            if (isWon) { setWon(true); return }
-
+            if (isGameOver) {
+                setGameOver(true)
+                saveScore('breakout', currentScore)
+                return
+            }
+            if (isWon) {
+                setWon(true)
+                saveScore('breakout', currentScore)
+                return
+            }
+            
             // ===== DESSIN =====
             const W = gameRef.current.get_canvas_width()
             const H = gameRef.current.get_canvas_height()

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './Snake.css'
+import { useScore } from '../hooks/useScore'
 
 // Taille d'une case en pixels
 const CELL_SIZE = 24
@@ -18,6 +19,7 @@ function Snake() {
     const [score, setScore] = useState(0)
     const [gameOver, setGameOver] = useState(false)
     const [started, setStarted] = useState(false)
+    const { saveScore } = useScore()
 
     // Charge le module WASM au démarrage
     useEffect(() => {
@@ -115,6 +117,8 @@ function Snake() {
 
             if (isGameOver) {
                 setGameOver(true)
+                // Sauvegarde le score si connecté
+                saveScore('snake', currentScore)
                 return
             }
 

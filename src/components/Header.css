@@ -36,3 +36,27 @@
 .header__link:hover {
     color: #ffffff;
 }
+
+
+/* Login */
+.header__btn {
+    padding: 0.8rem 2rem;
+    border-radius: 0.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.header__btn--register {
+    background: linear-gradient(135deg, #845ef7, #339af0);
+    color: #ffffff;
+}
+
+.header__btn--logout {
+    color: #aaaaaa;
+    border: 0.1rem solid #333333;
+}
+
+.header__btn:hover {
+    opacity: 0.8;
+}
