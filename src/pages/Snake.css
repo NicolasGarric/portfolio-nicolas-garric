@@ -1,0 +1,78 @@
+.snake-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4.8rem 2.4rem;
+    gap: 2.4rem;
+}
+
+.snake-header {
+    display: flex;
+    align-items: center;
+    gap: 3.2rem;
+}
+
+.snake-header__title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #51cf66, #339af0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.snake-header__score {
+    font-size: 2rem;
+    color: #aaaaaa;
+}
+
+.snake-canvas-wrapper {
+    position: relative;
+}
+
+.snake-canvas {
+    display: block;
+    border: 0.1rem solid #2a2a2a;
+    border-radius: 0.8rem;
+    background-color: #0f0f0f;
+}
+
+.snake-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.4rem;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 0.8rem;
+}
+
+.snake-overlay__title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.snake-overlay__text {
+    font-size: 1.6rem;
+    color: #aaaaaa;
+    text-align: center;
+    max-width: 32rem;
+}
+
+.snake-overlay__btn {
+    padding: 1.2rem 4rem;
+    border-radius: 0.8rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #51cf66, #339af0);
+    color: #ffffff;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.snake-overlay__btn:hover {
+    opacity: 0.85;
+    transform: translateY(-0.2rem);
+}

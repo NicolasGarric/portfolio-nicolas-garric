@@ -9,7 +9,7 @@ const games = [
         description: 'Le classique jeu du serpent. Mange les pommes, évite les murs !',
         emoji: '🐍',
         path: '/games/snake',
-        available: false,
+        available: true,
     },
     {
         title: 'Casse-briques',

@@ -1,0 +1,12 @@
+[package]
+name = "snake"
+version = "0.1.0"
+edition = "2021"
+
+# cdylib = format compatible avec WebAssembly
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# wasm-bindgen génère le pont entre Rust et JavaScript
+wasm-bindgen = "0.2"
