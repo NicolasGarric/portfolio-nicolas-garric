@@ -1,0 +1,35 @@
+.games {
+    padding: 8rem 4.8rem;
+    text-align: center;
+}
+
+.games__title {
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.2rem;
+}
+
+.games__subtitle {
+    font-size: 1.6rem;
+    color: #aaaaaa;
+    margin-bottom: 4.8rem;
+}
+
+.games__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 2.4rem;
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+@media (max-width: 48rem) {
+    .games {
+        padding: 4.8rem 2.4rem;
+    }
+
+    .games__title {
+        font-size: 2.8rem;
+    }
+}

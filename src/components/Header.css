@@ -1,0 +1,38 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.6rem 4.8rem;
+    background-color: #111111;
+    border-bottom: 0.1rem solid #222222;
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.header__logo {
+    font-size: 2rem;
+    font-weight: 700;
+
+    background: linear-gradient(135deg, #ff6b6b, #845ef7, #339af0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header__nav {
+    display: flex;
+    gap: 3.2rem;
+}
+
+.header__link {
+    font-size: 1.6rem;
+    color: #aaaaaa;
+    transition: color 0.2s ease;
+}
+
+/* survol lien */
+.header__link:hover {
+    color: #ffffff;
+}

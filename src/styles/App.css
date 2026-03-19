@@ -1,0 +1,18 @@
+.page {
+    min-height: calc(100vh - 6.4rem);
+}
+
+.page__title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 1.6rem;
+    background: linear-gradient(135deg, #ff6b6b, #845ef7, #339af0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page__text {
+    font-size: 1.6rem;
+    color: #aaaaaa;
+}

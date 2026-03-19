@@ -1,0 +1,86 @@
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2.4rem;
+    gap: 2.4rem;
+    /* Dégradé de fond subtil */
+    background: radial-gradient(ellipse at top, #1a1040 0%, #0f0f0f 70%);
+}
+
+.hero__badge {
+    display: inline-block;
+    padding: 0.6rem 1.6rem;
+    border-radius: 10rem;
+    border: 0.1rem solid #845ef7;
+    color: #845ef7;
+    font-size: 1.4rem;
+    letter-spacing: 0.1rem;
+}
+
+.hero__title {
+    font-size: 5.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.hero__name {
+    /* Dégradé coloré uniquement sur le nom */
+    background: linear-gradient(135deg, #ff6b6b, #845ef7, #339af0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero__subtitle {
+    font-size: 1.8rem;
+    color: #aaaaaa;
+    max-width: 60rem;
+    line-height: 1.8;
+}
+
+.hero__actions {
+    display: flex;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.6rem;
+}
+
+.hero__btn {
+    padding: 1.2rem 3.2rem;
+    border-radius: 0.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hero__btn:hover {
+    transform: translateY(-0.2rem);
+    opacity: 0.9;
+}
+
+.hero__btn--primary {
+    background: linear-gradient(135deg, #845ef7, #339af0);
+    color: #ffffff;
+}
+
+.hero__btn--secondary {
+    border: 0.1rem solid #444444;
+    color: #ffffff;
+    background: transparent;
+}
+
+/* Responsive — sur mobile le titre est plus petit */
+@media (max-width: 48rem) {
+    .hero__title {
+        font-size: 3.6rem;
+    }
+
+    .hero__subtitle {
+        font-size: 1.6rem;
+    }
+}
