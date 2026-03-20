@@ -6,7 +6,7 @@
     font-size: 3.2rem;
     font-weight: 700;
     margin-bottom: 1.6rem;
-    background: linear-gradient(135deg, #ff6b6b, #845ef7, #339af0);
+    background: var(--gradient-main);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -14,5 +14,5 @@
 
 .page__text {
     font-size: 1.6rem;
-    color: #aaaaaa;
+    color: var(--text-muted);
 }

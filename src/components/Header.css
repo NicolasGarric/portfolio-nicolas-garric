@@ -3,19 +3,18 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.6rem 4.8rem;
-    background-color: #111111;
-    border-bottom: 0.1rem solid #222222;
+    background-color: var(--bg-secondary);
+    border-bottom: 0.1rem solid var(--border-primary);
+    /* Reste visible en haut lors du scroll */
     position: sticky;
     top: 0;
-
     z-index: 100;
 }
 
 .header__logo {
     font-size: 2rem;
     font-weight: 700;
-
-    background: linear-gradient(135deg, #ff6b6b, #845ef7, #339af0);
+    background: var(--gradient-main);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -23,38 +22,36 @@
 
 .header__nav {
     display: flex;
+    align-items: center;
     gap: 3.2rem;
 }
 
 .header__link {
     font-size: 1.6rem;
-    color: #aaaaaa;
-    transition: color 0.2s ease;
+    color: var(--text-muted);
+    transition: color var(--transition);
 }
 
-/* survol lien */
 .header__link:hover {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
-
-/* Login */
 .header__btn {
     padding: 0.8rem 2rem;
-    border-radius: 0.8rem;
+    border-radius: var(--radius-sm);
     font-size: 1.6rem;
     font-weight: 600;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--transition);
 }
 
 .header__btn--register {
-    background: linear-gradient(135deg, #845ef7, #339af0);
-    color: #ffffff;
+    background: var(--gradient-purple-blue);
+    color: var(--text-primary);
 }
 
 .header__btn--logout {
-    color: #aaaaaa;
-    border: 0.1rem solid #333333;
+    color: var(--text-muted);
+    border: 0.1rem solid var(--border-secondary);
 }
 
 .header__btn:hover {

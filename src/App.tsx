@@ -8,28 +8,26 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import './styles/App.css'
 import Leaderboard from './pages/Leaderboard'
+import Profile from './pages/Profile'
+import './styles/App.css'
 
 function App() {
     return (
         <BrowserRouter>
-            <Header />
-
-            {/* Le contenu principal change selon l'URL */}
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/games/snake" element={<Snake />} />
-                <Route path="/games/breakout" element={<Breakout />} />
-                <Route path="/games/memory" element={<Memory />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
-            </Routes>
-
-            {/* Footer toujours visible en bas */}
-            <Footer />
+        <Header />
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/games/snake" element={<Snake />} />
+            <Route path="/games/breakout" element={<Breakout />} />
+            <Route path="/games/memory" element={<Memory />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/profile" element={<Profile />} />
+        </Routes>
+        <Footer />
         </BrowserRouter>
     )
 }

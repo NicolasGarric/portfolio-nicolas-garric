@@ -12,7 +12,7 @@
 .leaderboard__title {
     font-size: 4rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #ffd43b, #ff6b6b);
+    background: var(--gradient-yellow-red);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -21,7 +21,7 @@
 
 .leaderboard__subtitle {
     font-size: 1.6rem;
-    color: #aaaaaa;
+    color: var(--text-muted);
 }
 
 .leaderboard__tabs {
@@ -34,23 +34,23 @@
 
 .leaderboard__tab {
     padding: 1rem 2.4rem;
-    border-radius: 10rem;
+    border-radius: var(--radius-full);
     font-size: 1.6rem;
     font-weight: 600;
-    border: 0.1rem solid #333333;
-    color: #aaaaaa;
-    transition: all 0.2s ease;
+    border: 0.1rem solid var(--border-secondary);
+    color: var(--text-muted);
+    transition: all var(--transition);
 }
 
 .leaderboard__tab:hover {
-    border-color: #845ef7;
-    color: #ffffff;
+    border-color: var(--color-purple);
+    color: var(--text-primary);
 }
 
 .leaderboard__tab--active {
-    background: linear-gradient(135deg, #845ef7, #339af0);
+    background: var(--gradient-purple-blue);
     border-color: transparent;
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 .leaderboard__content {
@@ -60,16 +60,16 @@
 }
 
 .leaderboard__section {
-    background-color: #1a1a1a;
-    border: 0.1rem solid #2a2a2a;
-    border-radius: 1.6rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
     padding: 3.2rem;
 }
 
 .leaderboard__section-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
     margin-bottom: 2.4rem;
 }
 
@@ -81,16 +81,16 @@
 
 .leaderboard__table th {
     text-align: left;
-    color: #666666;
+    color: var(--text-disabled);
     font-weight: 600;
     padding: 0.8rem 1.2rem;
-    border-bottom: 0.1rem solid #2a2a2a;
+    border-bottom: 0.1rem solid var(--border-primary);
 }
 
 .leaderboard__table td {
-    padding: 1.2rem 1.2rem;
-    border-bottom: 0.1rem solid #1a1a1a;
-    color: #cccccc;
+    padding: 1.2rem;
+    border-bottom: 0.1rem solid var(--bg-card);
+    color: var(--text-secondary);
 }
 
 .leaderboard__table tr:last-child td {
@@ -102,7 +102,7 @@
 }
 
 .leaderboard__row--mine td {
-    color: #845ef7;
+    color: var(--color-purple);
     font-weight: 600;
 }
 
@@ -113,28 +113,28 @@
 
 .leaderboard__score {
     font-weight: 700;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
 }
 
 .leaderboard__date {
-    color: #666666 !important;
+    color: var(--text-disabled) !important;
     font-size: 1.3rem;
 }
 
 .leaderboard__loading,
 .leaderboard__empty {
     font-size: 1.4rem;
-    color: #666666;
+    color: var(--text-disabled);
     text-align: center;
     padding: 2.4rem;
 }
 
 .leaderboard__private-notice {
     font-size: 1.4rem;
-    color: #845ef7;
+    color: var(--color-purple);
     background-color: #1a1040;
-    border: 0.1rem solid #845ef7;
-    border-radius: 0.8rem;
+    border: 0.1rem solid var(--color-purple);
+    border-radius: var(--radius-sm);
     padding: 1.2rem 1.6rem;
     margin-bottom: 2.4rem;
     line-height: 1.6;
@@ -147,10 +147,6 @@
 }
 
 @media (max-width: 48rem) {
-    .leaderboard__tabs {
-        gap: 0.8rem;
-    }
-
     .leaderboard__tab {
         padding: 0.8rem 1.6rem;
         font-size: 1.4rem;
