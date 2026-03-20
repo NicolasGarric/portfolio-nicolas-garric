@@ -1,0 +1,286 @@
+.nasa-quiz {
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 4.8rem 2.4rem;
+}
+
+.nasa-quiz__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3.2rem;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+}
+
+.nasa-quiz__title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nasa-quiz__stats {
+    display: flex;
+    gap: 2.4rem;
+    align-items: center;
+}
+
+.nasa-quiz__stat {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+}
+
+.nasa-quiz__timer {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-green);
+    transition: color var(--transition);
+}
+
+.nasa-quiz__timer--urgent {
+    color: var(--color-red);
+    animation: pulse 0.5s ease infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.4; }
+}
+
+/* Overlay */
+.nasa-quiz__overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.nasa-quiz__overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    text-align: center;
+    max-width: 64rem;
+    padding: 4.8rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
+}
+
+.nasa-quiz__overlay-emoji {
+    font-size: 6.4rem;
+}
+
+.nasa-quiz__overlay-title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.nasa-quiz__overlay-text {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.nasa-quiz__error {
+    font-size: 1.4rem;
+    color: var(--color-red);
+}
+
+/* Loader */
+.nasa-quiz__loader {
+    width: 4.8rem;
+    height: 4.8rem;
+    border: 0.4rem solid var(--border-primary);
+    border-top-color: var(--color-green-light);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Jeu */
+.nasa-quiz__game {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+.nasa-quiz__image-wrapper {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    max-height: 40rem;
+}
+
+.nasa-quiz__image {
+    width: 100%;
+    height: 40rem;
+    object-fit: cover;
+    display: block;
+}
+
+.nasa-quiz__image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.6rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+}
+
+.nasa-quiz__image-date {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+}
+
+.nasa-quiz__description {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-style: italic;
+    padding: 1.6rem;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border-left: 0.3rem solid var(--color-green-light);
+}
+
+.nasa-quiz__question {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+/* Réponses */
+.nasa-quiz__answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+}
+
+.nasa-quiz__answer {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    padding: 1.6rem 2.4rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    font-size: 1.6rem;
+    color: var(--text-secondary);
+    text-align: left;
+    transition: all var(--transition);
+    cursor: pointer;
+}
+
+.nasa-quiz__answer:hover:not(:disabled) {
+    border-color: var(--color-green-light);
+    color: var(--text-primary);
+    transform: translateY(-0.2rem);
+}
+
+.nasa-quiz__answer:disabled {
+    cursor: not-allowed;
+}
+
+.nasa-quiz__answer--correct {
+    border-color: var(--color-green) !important;
+    background-color: rgba(64, 192, 87, 0.15) !important;
+    color: var(--color-green) !important;
+}
+
+.nasa-quiz__answer--wrong {
+    border-color: var(--color-red) !important;
+    background-color: rgba(255, 107, 107, 0.15) !important;
+    color: var(--color-red) !important;
+}
+
+.nasa-quiz__answer-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background-color: var(--border-primary);
+    font-weight: 700;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+/* Feedback */
+.nasa-quiz__feedback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    padding: 2.4rem;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+}
+
+.nasa-quiz__feedback-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.nasa-quiz__feedback-text--correct {
+    color: var(--color-green);
+}
+
+.nasa-quiz__feedback-text--wrong {
+    color: var(--color-red);
+}
+
+.nasa-quiz__score-final {
+    font-size: 4rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Bouton */
+.nasa-quiz__btn {
+    padding: 1.2rem 4rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--gradient-purple-blue);
+    color: var(--text-primary);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.nasa-quiz__btn:hover:not(:disabled) {
+    opacity: 0.85;
+    transform: translateY(-0.2rem);
+}
+
+.nasa-quiz__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 48rem) {
+    .nasa-quiz__answers {
+        grid-template-columns: 1fr;
+    }
+
+    .nasa-quiz__question {
+        font-size: 1.8rem;
+    }
+
+    .nasa-quiz__image {
+        height: 24rem;
+    }
+}

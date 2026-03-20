@@ -4,6 +4,7 @@ import Contact from './pages/Contact'
 import Snake from './pages/Snake'
 import Breakout from './pages/Breakout'
 import Memory from './pages/Memory'
+import NasaQuiz from './pages/NasaQuiz'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Login from './pages/Login'
@@ -22,6 +23,7 @@ function App() {
             <Route path="/games/snake" element={<Snake />} />
             <Route path="/games/breakout" element={<Breakout />} />
             <Route path="/games/memory" element={<Memory />} />
+            <Route path="/games/nasa-quiz" element={<NasaQuiz />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/leaderboard" element={<Leaderboard />} />

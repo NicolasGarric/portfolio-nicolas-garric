@@ -25,6 +25,13 @@ const games = [
         path: '/games/memory',
         available: true,
     },
+    {
+        title: 'Quiz NASA',
+        description: 'Découvre des vraies photos de l\'espace et teste tes connaissances !',
+        emoji: '🚀',
+        path: '/games/nasa-quiz',
+        available: true,
+    },
 ]
 
 function Home() {
