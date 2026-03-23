@@ -5,18 +5,19 @@ import './Leaderboard.css'
 
 // Les jeux disponibles
 const GAMES = [
-  { id: 'snake', label: 'Snake', emoji: '🐍' },
-  { id: 'breakout', label: 'Casse-briques', emoji: '🧱' },
-  { id: 'memory', label: 'Mémory', emoji: '🃏' },
+    { id: 'snake', label: 'Snake', emoji: '🐍' },
+    { id: 'breakout', label: 'Casse-briques', emoji: '🧱' },
+    { id: 'memory', label: 'Mémory', emoji: '🃏' },
+    { id: 'nasa-quiz', label: 'Quiz NASA', emoji: '🚀' },
 ]
 
 interface ScoreEntry {
-  id: string
-  score: number
-  created_at: string
-  profiles: {
-    username: string
-  }
+    id: string
+    score: number
+    created_at: string
+    profiles: {
+        username: string
+    }
 }
 
 function Leaderboard() {
@@ -84,6 +85,7 @@ function Leaderboard() {
     // Formate le score selon le jeu
     const formatScore = (game: string, score: number) => {
         if (game === 'memory') return `${score} tentatives`
+        if (game === 'nasa-quiz') return `${score} pts`
         return `${score} pts`
     }
 

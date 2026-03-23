@@ -32,6 +32,13 @@ const games = [
         path: '/games/nasa-quiz',
         available: true,
     },
+    {
+        title: 'Tower Defense',
+        description: 'Place des tourelles et défends ta base contre les vagues d\'ennemis !',
+        emoji: '🏰',
+        path: '/games/tower-defense',
+        available: false,
+    },
 ]
 
 function Home() {

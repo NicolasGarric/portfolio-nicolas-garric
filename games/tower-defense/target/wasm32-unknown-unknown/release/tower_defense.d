@@ -1,0 +1,1 @@
+/home/nicolas/sources/portfolio-nicolas-garric/games/tower-defense/target/wasm32-unknown-unknown/release/tower_defense.wasm: /home/nicolas/sources/portfolio-nicolas-garric/games/tower-defense/src/lib.rs
