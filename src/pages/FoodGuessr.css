@@ -1,0 +1,317 @@
+.fg-page {
+    max-width: 140rem;
+    margin: 0 auto;
+    padding: 2.4rem;
+}
+
+.fg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.4rem;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+}
+
+.fg-title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.fg-stats {
+    display: flex;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+}
+
+.fg-stat {
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding: 0.8rem 1.6rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+}
+
+.fg-stat--score { color: var(--color-yellow); }
+.fg-stat--potential { color: var(--color-green); }
+
+/* Overlay */
+.fg-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    padding: 6.4rem 4.8rem;
+    text-align: center;
+    max-width: 64rem;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
+}
+
+.fg-overlay--gameover { border-color: var(--color-yellow); }
+.fg-overlay__emoji { font-size: 6.4rem; }
+
+.fg-overlay__title {
+    font-size: 3.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.fg-overlay__text {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.fg-temp-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.fg-error { font-size: 1.4rem; color: var(--color-red); }
+
+.fg-loader {
+    width: 4.8rem;
+    height: 4.8rem;
+    border: 0.4rem solid var(--border-primary);
+    border-top-color: var(--color-green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Layout principal — image à gauche, carte à droite */
+.fg-game {
+    display: grid;
+    /* Image fixe à 36rem, carte prend le reste */
+    grid-template-columns: 36rem 1fr;
+    gap: 2.4rem;
+    align-items: start;
+}
+
+/* Colonne gauche */
+.fg-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-height: 70rem;
+    overflow: visible;
+    z-index: 1002;
+    position: relative;
+}
+
+.fg-meal-card {
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* Image carrée et plus petite */
+.fg-meal-image {
+    width: 100%;
+    height: 28rem;
+    object-fit: cover;
+    display: block;
+}
+
+.fg-meal-info {
+    padding: 1.6rem;
+}
+
+.fg-meal-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+
+.fg-meal-hint {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+}
+
+/* Input */
+.fg-input-wrapper {
+    position: relative;
+    z-index: 1002;
+}
+
+.fg-input {
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: border-color var(--transition);
+}
+
+.fg-input:focus {
+    outline: none;
+    border-color: var(--color-green-light);
+}
+
+.fg-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-secondary);
+    border-top: none;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    z-index: 1002;
+    overflow: hidden;
+    box-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.5);
+}
+
+.fg-suggestion {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.6rem;
+    text-align: left;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    transition: background-color var(--transition);
+}
+
+.fg-suggestion:hover {
+    background-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+/* Résultat round */
+.fg-round-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--color-green);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.fg-round-result__correct {
+    font-size: 1.6rem;
+    color: var(--text-primary);
+}
+
+.fg-round-result__score {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--color-yellow);
+}
+
+/* Historique tentatives */
+.fg-guesses {
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem;
+    flex-shrink: 0;
+}
+
+.fg-guesses__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1.2rem;
+}
+
+.fg-guess-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0.8rem 0;
+    border-bottom: 0.1rem solid var(--border-primary);
+    font-size: 1.4rem;
+}
+
+.fg-guess-item:last-child { border-bottom: none; }
+.fg-guess-temp { font-weight: 700; min-width: 10rem; }
+.fg-guess-country { color: var(--text-primary); flex: 1; }
+.fg-guess-distance { color: var(--text-disabled); font-size: 1.2rem; }
+
+/* Carte — prend toute la hauteur disponible */
+.fg-map-wrapper {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 0.1rem solid var(--border-primary);
+    height: 70rem;
+    position: sticky;
+    top: 2.4rem;
+    z-index: 1;
+}
+
+.fg-map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Score final */
+.fg-score-final {
+    font-size: 5.6rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Bouton */
+.fg-btn {
+    padding: 1.2rem 4rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--gradient-purple-blue);
+    color: var(--text-primary);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.fg-btn:hover:not(:disabled) {
+    opacity: 0.85;
+    transform: translateY(-0.2rem);
+}
+
+.fg-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 96rem) {
+    .fg-game {
+        grid-template-columns: 1fr;
+    }
+
+    .fg-map-wrapper {
+        height: 40rem;
+        position: static;
+    }
+
+    .fg-left {
+        max-height: none;
+        overflow-y: visible;
+    }
+}

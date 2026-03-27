@@ -33,6 +33,13 @@ const games = [
         available: true,
     },
     {
+        title: 'FoodGuessr',
+        description: 'Devine de quel pays vient ce plat et marque le sur la carte !',
+        emoji: '🍜',
+        path: '/games/food-guessr',
+        available: true,
+    },
+    {
         title: 'Tower Defense',
         description: 'Place des tourelles et défends ta base contre les vagues d\'ennemis !',
         emoji: '🏰',
