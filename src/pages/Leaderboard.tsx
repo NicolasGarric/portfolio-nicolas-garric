@@ -3,7 +3,6 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import './Leaderboard.css'
 
-// Les jeux disponibles
 const GAMES = [
     { id: 'snake', label: 'Snake', emoji: '🐍' },
     { id: 'breakout', label: 'Casse-briques', emoji: '🧱' },
@@ -17,9 +16,7 @@ interface ScoreEntry {
     id: string
     score: number
     created_at: string
-    profiles: {
-        username: string
-    }
+    profiles: { username: string }
 }
 
 function Leaderboard() {
@@ -32,22 +29,15 @@ function Leaderboard() {
     const loadPublicScores = async (game: string) => {
         const { data } = await supabase
             .from('scores')
-            .select(`
-                id,
-                score,
-                created_at,
-                profiles (username)
-            `)
+            .select('id, score, created_at, profiles (username)')
             .eq('game', game)
             .order('score', { ascending: game === 'memory' })
             .limit(10)
-
         setPublicScores((data as unknown as ScoreEntry[]) ?? [])
     }
 
     const loadMyScores = async (game: string) => {
         if (!user) return
-
         const { data } = await supabase
             .from('scores')
             .select('id, score, created_at, profiles(username)')
@@ -55,7 +45,6 @@ function Leaderboard() {
             .eq('user_id', user.id)
             .order('score', { ascending: game === 'memory' })
             .limit(5)
-
         setMyScores((data as unknown as ScoreEntry[]) ?? [])
     }
 
@@ -66,7 +55,6 @@ function Leaderboard() {
             await loadMyScores(activeGame)
             setLoading(false)
         }
-
         load()
     }, [activeGame, user])
 
@@ -80,16 +68,15 @@ function Leaderboard() {
 
     const formatScore = (game: string, score: number) => {
         if (game === 'memory') return `${score} tentatives`
-        if (game === 'nasa-quiz') return `${score} pts`
-        if (game === 'food-guessr') return `${score} pts`
         return `${score} pts`
     }
 
-    const activeGameData = GAMES.find((g) => g.id === activeGame)!
+    const activeGameData = GAMES.find(g => g.id === activeGame)!
 
     return (
         <main className="page">
             <section className="leaderboard">
+
                 <div className="leaderboard__header">
                     <h1 className="leaderboard__title">🏆 Classements</h1>
                     <p className="leaderboard__subtitle">
@@ -97,8 +84,9 @@ function Leaderboard() {
                     </p>
                 </div>
 
+                {/* Onglets */}
                 <div className="leaderboard__tabs">
-                    {GAMES.map((game) => (
+                    {GAMES.map(game => (
                         <button
                             key={game.id}
                             className={`leaderboard__tab ${
@@ -112,6 +100,8 @@ function Leaderboard() {
                 </div>
 
                 <div className="leaderboard__content">
+
+                    {/* Classement public — SANS date */}
                     <div className="leaderboard__section">
                         <h2 className="leaderboard__section-title">
                             Top 10 — {activeGameData.emoji} {activeGameData.label}
@@ -130,7 +120,6 @@ function Leaderboard() {
                                         <th>#</th>
                                         <th>Joueur</th>
                                         <th>Score</th>
-                                        <th>Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -144,20 +133,11 @@ function Leaderboard() {
                                             }
                                         >
                                             <td className="leaderboard__rank">
-                                                {index === 0
-                                                    ? '🥇'
-                                                    : index === 1
-                                                    ? '🥈'
-                                                    : index === 2
-                                                    ? '🥉'
-                                                    : `#${index + 1}`}
+                                                {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
                                             </td>
                                             <td>{entry.profiles?.username ?? 'Anonyme'}</td>
                                             <td className="leaderboard__score">
                                                 {formatScore(activeGame, entry.score)}
-                                            </td>
-                                            <td className="leaderboard__date">
-                                                {formatDate(entry.created_at)}
                                             </td>
                                         </tr>
                                     ))}
@@ -166,6 +146,7 @@ function Leaderboard() {
                         )}
                     </div>
 
+                    {/* Mes scores — AVEC date */}
                     {user && (
                         <div className="leaderboard__section">
                             <h2 className="leaderboard__section-title">
@@ -174,8 +155,7 @@ function Leaderboard() {
 
                             {!profile?.share_scores && (
                                 <p className="leaderboard__private-notice">
-                                    🔒 Tes scores sont privés — tu n'apparais pas dans le classement public.
-                                    Tu peux modifier ce choix depuis ton profil.
+                                    🔒 Tes scores sont privés. Tu peux modifier ce choix depuis ton profil.
                                 </p>
                             )}
 
@@ -209,6 +189,7 @@ function Leaderboard() {
                             )}
                         </div>
                     )}
+
                 </div>
             </section>
         </main>
