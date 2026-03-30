@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import type { Country } from '../data/countries'
-import { COUNTRIES, haversineDistance, getTemperature } from '../data/countries'
+import { ALL_COUNTRIES, PLAYABLE_COUNTRIES, haversineDistance, getTemperature } from '../data/countries'
 import { useScore } from '../hooks/useScore'
 import './FoodGuessr.css'
 
@@ -114,7 +114,7 @@ function FoodGuessr() {
                 const meal: Meal = data.meals[0]
 
                 // Vérifie que le pays est dans notre liste et pas déjà utilisé
-                const country = COUNTRIES.find(c => c.mealdbArea === meal.strArea)
+                const country = PLAYABLE_COUNTRIES.find(c => c.mealdbArea === meal.strArea)
                 if (country && !usedAreas.has(meal.strArea)) {
                     usedAreas.add(meal.strArea)
                     fetched.push(meal)
@@ -167,7 +167,8 @@ function FoodGuessr() {
             setSuggestions([])
             return
         }
-        const filtered = COUNTRIES.filter(c =>
+        // Autocomplétion sur TOUS les pays
+        const filtered = ALL_COUNTRIES.filter(c =>
             c.name.toLowerCase().includes(value.toLowerCase())
         ).slice(0, 6)
         setSuggestions(filtered)
@@ -180,7 +181,7 @@ function FoodGuessr() {
         setInput('')
         setSuggestions([])
 
-        const correctC = COUNTRIES.find(c => c.mealdbArea === currentMeal.strArea)
+        const correctC = PLAYABLE_COUNTRIES.find(c => c.mealdbArea === currentMeal.strArea)
         if (!correctC) return
 
         const isCorrect = country.name === correctC.name
@@ -211,6 +212,21 @@ function FoodGuessr() {
                 setMapZoom(5)
             }, 800)
         }
+    }
+
+    const handleSkip = () => {
+        if (!gameRef.current || roundOver || !currentMeal) return
+
+        const correctC = PLAYABLE_COUNTRIES.find(c => c.mealdbArea === currentMeal.strArea)
+        if (!correctC) return
+
+        // Soumet une mauvaise réponse pour avancer sans points
+        gameRef.current.submit_answer(0)
+        setRoundScore(0)
+        setRoundOver(true)
+        setCorrectCountry(correctC)
+        setMapCenter([correctC.lat, correctC.lng])
+        setMapZoom(5)
     }
 
     // Round suivant
@@ -350,6 +366,15 @@ function FoodGuessr() {
                                         </div>
                                     )}
                                 </div>
+                            )}
+
+                            {!roundOver && (
+                                <button
+                                    className="fg-skip-btn"
+                                    onClick={handleSkip}
+                                >
+                                    Passer →
+                                </button>
                             )}
 
                             {/* Résultat du round */}
