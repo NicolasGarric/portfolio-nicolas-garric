@@ -644,29 +644,4 @@ impl GameState {
         }
         result
     }
-
-    pub fn debug_path(&self) -> String {
-        format!(
-            "path_len={} grid={}x{} spawn=({},{}) base=({},{}) spawn_cell={} base_cell={}",
-            self.path.len(),
-            GRID_WIDTH,
-            GRID_HEIGHT,
-            SPAWN_X, SPAWN_Y,
-            BASE_X, BASE_Y,
-            match self.get_cell(SPAWN_X, SPAWN_Y) {
-                Cell::Empty => "Empty",
-                Cell::Spawn => "Spawn",
-                Cell::Base => "Base",
-                Cell::Path => "Path",
-                Cell::Tower(_) => "Tower",
-            },
-            match self.get_cell(BASE_X, BASE_Y) {
-                Cell::Empty => "Empty",
-                Cell::Spawn => "Spawn",
-                Cell::Base => "Base",
-                Cell::Path => "Path",
-                Cell::Tower(_) => "Tower",
-            }
-        )
-    }
 }

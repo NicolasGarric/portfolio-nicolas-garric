@@ -68,9 +68,6 @@ function TowerDefense() {
         if (!wasm) return
 
         gameRef.current = wasm.GameState.new()
-        // Debug
-        console.log('Debug:', gameRef.current.debug_path())
-        // Debug
 
         setResources(200)
         setBaseHp(20)
@@ -133,19 +130,6 @@ function TowerDefense() {
             if (!gameRef.current) return
 
             gameRef.current.tick()
-
-
-
-            // Debug temporaire
-            const path = gameRef.current.get_path()
-            const enemies = gameRef.current.get_enemies()
-            const wave = gameRef.current.get_wave()
-            console.log('Path length:', path.length / 2)
-            console.log('Enemies count:', enemies.length / 5)
-            console.log('Wave in progress:', gameRef.current.is_wave_in_progress())
-
-
-
 
             const newResources = gameRef.current.get_resources()
             const newBaseHp = gameRef.current.get_base_hp()
