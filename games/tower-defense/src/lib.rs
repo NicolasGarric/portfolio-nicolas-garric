@@ -128,16 +128,6 @@ pub struct Projectile {
     pub active: bool,
 }
 
-// ===== NOEUD POUR A* =====
-#[derive(Clone)]
-struct AStarNode {
-    x: usize,
-    y: usize,
-    g: f32, // Coût depuis le départ
-    f: f32, // g + heuristique
-    parent: Option<(usize, usize)>,
-}
-
 // ===== ÉTAT DU JEU =====
 #[wasm_bindgen]
 pub struct GameState {
@@ -439,45 +429,46 @@ impl GameState {
             dx + dy
         };
 
-        let mut open: Vec<AStarNode> = vec![AStarNode {
-            x: start.0,
-            y: start.1,
-            g: 0.0,
-            f: heuristic(start.0, start.1),
-            parent: None,
-        }];
+        let mut came_from: Vec<Option<(usize, usize)>> =
+            vec![None; GRID_WIDTH * GRID_HEIGHT];
+        let mut visited = vec![false; GRID_WIDTH * GRID_HEIGHT];
+        let mut g_score = vec![f32::MAX; GRID_WIDTH * GRID_HEIGHT];
+        let mut open: Vec<(usize, usize, f32)> = Vec::new();
 
-        let mut closed = vec![false; GRID_WIDTH * GRID_HEIGHT];
-        let mut came_from: Vec<Option<(usize, usize)>> = vec![None; GRID_WIDTH * GRID_HEIGHT];
+        let start_idx = start.1 * GRID_WIDTH + start.0;
+        g_score[start_idx] = 0.0;
+        // Sentinelle : le spawn pointe sur lui-même pour dire "je suis la racine"
+        came_from[start_idx] = Some((SPAWN_X, SPAWN_Y));
+        open.push((start.0, start.1, heuristic(start.0, start.1)));
 
         while !open.is_empty() {
-            let current_idx = open
+            let best = open
                 .iter()
                 .enumerate()
-                .min_by(|a, b| a.1.f.partial_cmp(&b.1.f).unwrap())
+                .min_by(|a, b| a.1.2.partial_cmp(&b.1.2).unwrap())
                 .map(|(i, _)| i)
                 .unwrap();
 
-            let current = open.remove(current_idx);
+            let (cx, cy, _) = open.remove(best);
+            let cidx = cy * GRID_WIDTH + cx;
 
-            if current.x == goal.0 && current.y == goal.1 {
+            if visited[cidx] { continue; }
+            visited[cidx] = true;
+
+            if cx == goal.0 && cy == goal.1 {
                 return self.reconstruct_path(&came_from, goal);
             }
 
-            let idx = current.y * GRID_WIDTH + current.x;
-            if closed[idx] { continue; }
-            closed[idx] = true;
-            came_from[idx] = current.parent;
+            let neighbors: &[(i32, i32)] = &[(-1, 0), (1, 0), (0, -1), (0, 1)];
 
-            let neighbors: [(i32, i32); 4] = [
-                (-1, 0), (1, 0), (0, -1), (0, 1),
-            ];
+            for &(dx, dy) in neighbors {
+                let nx = cx as i32 + dx;
+                let ny = cy as i32 + dy;
 
-            for (dx, dy) in neighbors {
-                let nx = current.x as i32 + dx;
-                let ny = current.y as i32 + dy;
-
-                if nx < 0 || ny < 0 || nx >= GRID_WIDTH as i32 || ny >= GRID_HEIGHT as i32 {
+                if nx < 0 || ny < 0
+                    || nx >= GRID_WIDTH as i32
+                    || ny >= GRID_HEIGHT as i32
+                {
                     continue;
                 }
 
@@ -485,33 +476,19 @@ impl GameState {
                 let ny = ny as usize;
                 let nidx = ny * GRID_WIDTH + nx;
 
-                if closed[nidx] { continue; }
+                if visited[nidx] { continue; }
 
-                // Bloqué uniquement par les tourelles et murs
-                let passable = match self.get_cell(nx, ny) {
-                    Cell::Empty => true,
-                    Cell::Spawn => true,
-                    Cell::Base => true,
-                    Cell::Path => true,
-                    Cell::Tower(_) => false, // Bloqué
-                };
+                let blocked = matches!(self.get_cell(nx, ny), Cell::Tower(_));
+                if blocked { continue; }
 
-                if !passable { continue; }
+                let tentative_g = g_score[cidx] + 1.0;
 
-                let g = current.g + 1.0;
-                let f = g + heuristic(nx, ny);
-
-                if open.iter().any(|n| n.x == nx && n.y == ny && n.g <= g) {
-                    continue;
+                if tentative_g < g_score[nidx] {
+                    g_score[nidx] = tentative_g;
+                    came_from[nidx] = Some((cx, cy));
+                    let f = tentative_g + heuristic(nx, ny);
+                    open.push((nx, ny, f));
                 }
-
-                open.push(AStarNode {
-                    x: nx,
-                    y: ny,
-                    g,
-                    f,
-                    parent: Some((current.x, current.y)),
-                });
             }
         }
 
@@ -525,16 +502,36 @@ impl GameState {
     ) -> Vec<(f32, f32)> {
         let mut path = Vec::new();
         let mut current = goal;
+        let mut safety = 0;
+        let max_steps = GRID_WIDTH * GRID_HEIGHT + 1;
 
         loop {
             let px = (current.0 as f32 + 0.5) * CELL_SIZE;
             let py = (current.1 as f32 + 0.5) * CELL_SIZE;
             path.push((px, py));
 
+            // Arrête au spawn
+            if current.0 == SPAWN_X && current.1 == SPAWN_Y {
+                break;
+            }
+
             let idx = current.1 * GRID_WIDTH + current.0;
             match came_from[idx] {
-                None => break,
+                // Sentinelle : le spawn pointe sur lui-même
+                Some(parent) if parent == (SPAWN_X, SPAWN_Y) && current != (SPAWN_X, SPAWN_Y) => {
+                    // Le parent est le spawn, on l'ajoute et on s'arrête
+                    let sx = (SPAWN_X as f32 + 0.5) * CELL_SIZE;
+                    let sy = (SPAWN_Y as f32 + 0.5) * CELL_SIZE;
+                    path.push((sx, sy));
+                    break;
+                }
                 Some(parent) => current = parent,
+                None => return Vec::new(),
+            }
+
+            safety += 1;
+            if safety > max_steps {
+                return Vec::new();
             }
         }
 
@@ -646,5 +643,30 @@ impl GameState {
             result.push(y);
         }
         result
+    }
+
+    pub fn debug_path(&self) -> String {
+        format!(
+            "path_len={} grid={}x{} spawn=({},{}) base=({},{}) spawn_cell={} base_cell={}",
+            self.path.len(),
+            GRID_WIDTH,
+            GRID_HEIGHT,
+            SPAWN_X, SPAWN_Y,
+            BASE_X, BASE_Y,
+            match self.get_cell(SPAWN_X, SPAWN_Y) {
+                Cell::Empty => "Empty",
+                Cell::Spawn => "Spawn",
+                Cell::Base => "Base",
+                Cell::Path => "Path",
+                Cell::Tower(_) => "Tower",
+            },
+            match self.get_cell(BASE_X, BASE_Y) {
+                Cell::Empty => "Empty",
+                Cell::Spawn => "Spawn",
+                Cell::Base => "Base",
+                Cell::Path => "Path",
+                Cell::Tower(_) => "Tower",
+            }
+        )
     }
 }

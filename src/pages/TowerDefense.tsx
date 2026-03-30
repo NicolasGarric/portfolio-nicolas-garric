@@ -68,6 +68,10 @@ function TowerDefense() {
         if (!wasm) return
 
         gameRef.current = wasm.GameState.new()
+        // Debug
+        console.log('Debug:', gameRef.current.debug_path())
+        // Debug
+
         setResources(200)
         setBaseHp(20)
         setWave(0)

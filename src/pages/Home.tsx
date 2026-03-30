@@ -44,7 +44,7 @@ const games = [
         description: 'Place des tourelles et défends ta base contre les vagues d\'ennemis !',
         emoji: '🏰',
         path: '/games/tower-defense',
-        available: false,
+        available: true,
     },
 ]
 

@@ -10,6 +10,7 @@ const GAMES = [
     { id: 'memory', label: 'Mémory', emoji: '🃏' },
     { id: 'nasa-quiz', label: 'Quiz NASA', emoji: '🚀' },
     { id: 'food-guessr', label: 'FoodGuessr', emoji: '🍜' },
+    { id: 'tower-defense', label: 'Tower Defense', emoji: '🏰' },
 ]
 
 interface ScoreEntry {
