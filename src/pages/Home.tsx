@@ -1,57 +1,25 @@
+import { Link } from 'react-router-dom'
 import Hero from '../components/Hero'
-import GameCard from '../components/GameCard'
 import './Home.css'
 
-// La liste des jeux
-const games = [
+const sections = [
     {
-        title: 'Solitaire',
-        description: 'Le classique jeu de cartes Klondike — classe toutes les cartes !',
-        emoji: '🃏',
-        path: '/games/solitaire',
-        available: true,
+        label: 'Jeux',
+        description: 'Snake, Solitaire, Tower Defense et plus encore',
+        emoji: '🎮',
+        path: '/games',
     },
     {
-        title: 'Snake',
-        description: 'Le classique jeu du serpent. Mange les pommes, évite les murs !',
-        emoji: '🐍',
-        path: '/games/snake',
-        available: true,
+        label: 'Sites réalisés',
+        description: 'Projets clients développés en agence',
+        emoji: '🌐',
+        path: '/projects',
     },
     {
-        title: 'Casse-briques',
-        description: 'Détruit tous les blocs avec ta balle et ta raquette.',
-        emoji: '🧱',
-        path: '/games/breakout',
-        available: true,
-    },
-    {
-        title: 'Mémory',
-        description: 'Retrouve toutes les paires de cartes le plus vite possible.',
-        emoji: '🃏',
-        path: '/games/memory',
-        available: true,
-    },
-    {
-        title: 'Quiz NASA',
-        description: 'Découvre des vraies photos de l\'espace et teste tes connaissances !',
+        label: 'Projets à venir',
+        description: 'Ce qui arrive bientôt sur le portfolio',
         emoji: '🚀',
-        path: '/games/nasa-quiz',
-        available: true,
-    },
-    {
-        title: 'FoodGuessr',
-        description: 'Devine de quel pays vient ce plat et marque le sur la carte !',
-        emoji: '🍜',
-        path: '/games/food-guessr',
-        available: true,
-    },
-    {
-        title: 'Tower Defense',
-        description: 'Place des tourelles et défends ta base contre les vagues d\'ennemis !',
-        emoji: '🏰',
-        path: '/games/tower-defense',
-        available: true,
+        path: '/upcoming',
     },
 ]
 
@@ -60,24 +28,14 @@ function Home() {
         <main className="page">
             <Hero />
 
-            {/* Section des jeux */}
-            <section className="games" id="games">
-                <h2 className="games__title">Les Jeux</h2>
-                <p className="games__subtitle">
-                    Tous les jeux sont développés en Rust et WebAssembly
-                </p>
-
-                {/* On "map" le tableau — pour chaque jeu on crée une GameCard */}
-                <div className="games__grid">
-                    {games.map((game) => (
-                        <GameCard
-                            key={game.title}
-                            title={game.title}
-                            description={game.description}
-                            emoji={game.emoji}
-                            path={game.path}
-                            available={game.available}
-                        />
+            <section className="home-nav">
+                <div className="home-nav__grid">
+                    {sections.map((section) => (
+                        <Link key={section.path} to={section.path} className="home-nav__card">
+                            <span className="home-nav__emoji">{section.emoji}</span>
+                            <h2 className="home-nav__label">{section.label}</h2>
+                            <p className="home-nav__description">{section.description}</p>
+                        </Link>
                     ))}
                 </div>
             </section>

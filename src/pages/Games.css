@@ -1,0 +1,41 @@
+.games-page {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 4.8rem 2.4rem;
+    text-align: center;
+}
+
+.games-page__header {
+    margin-bottom: 4.8rem;
+}
+
+.games-page__title {
+    font-size: 4rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.2rem;
+}
+
+.games-page__subtitle {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+}
+
+.games-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 2.4rem;
+}
+
+@media (max-width: 48rem) {
+    .games-page__title {
+        font-size: 3.2rem;
+    }
+
+    .games-page__grid {
+        grid-template-columns: 1fr;
+    }
+}

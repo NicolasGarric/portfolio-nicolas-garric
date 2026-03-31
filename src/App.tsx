@@ -8,8 +8,11 @@ import NasaQuiz from './pages/NasaQuiz'
 import TowerDefense from './pages/TowerDefense'
 import FoodGuessr from './pages/FoodGuessr'
 import Solitaire from './pages/Solitaire'
+import Games from './pages/Games'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Projects from './pages/Projects'
+import Upcoming from './pages/Upcoming'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Leaderboard from './pages/Leaderboard'
@@ -30,6 +33,9 @@ function App() {
             <Route path="/games/tower-defense" element={<TowerDefense />} />
             <Route path="/games/food-guessr" element={<FoodGuessr />} />
             <Route path="/games/solitaire" element={<Solitaire />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/upcoming" element={<Upcoming />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/leaderboard" element={<Leaderboard />} />

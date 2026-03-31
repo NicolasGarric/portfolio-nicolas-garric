@@ -1,0 +1,141 @@
+.upcoming {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 4.8rem 2.4rem;
+}
+
+.upcoming__header {
+    text-align: center;
+    margin-bottom: 4.8rem;
+}
+
+.upcoming__title {
+    font-size: 4rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.2rem;
+}
+
+.upcoming__subtitle {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+}
+
+.upcoming__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+.upcoming-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    padding: 2.4rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition);
+}
+
+.upcoming-card:hover {
+    border-color: var(--color-purple);
+}
+
+.upcoming-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+}
+
+.upcoming-card__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Badges de statut */
+.upcoming-card__status {
+    padding: 0.4rem 1.2rem;
+    border-radius: var(--radius-full);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.upcoming-card__status--inProgress {
+    background-color: rgba(105, 219, 124, 0.15);
+    color: var(--color-green);
+    border: 0.1rem solid var(--color-green);
+}
+
+.upcoming-card__status--planned {
+    background-color: rgba(51, 154, 240, 0.15);
+    color: var(--color-blue);
+    border: 0.1rem solid var(--color-blue);
+}
+
+.upcoming-card__status--paused {
+    background-color: rgba(255, 107, 107, 0.15);
+    color: var(--color-red);
+    border: 0.1rem solid var(--color-red);
+}
+
+.upcoming-card__description {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.upcoming-card__techs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.upcoming-card__tech {
+    padding: 0.4rem 1.2rem;
+    background-color: var(--border-primary);
+    border-radius: var(--radius-full);
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Barre de progression */
+.upcoming-card__progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.upcoming-card__progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+}
+
+.upcoming-card__progress-bar {
+    height: 0.8rem;
+    background-color: var(--border-primary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.upcoming-card__progress-fill {
+    height: 100%;
+    background: var(--gradient-purple-blue);
+    border-radius: var(--radius-full);
+    transition: width 0.6s ease;
+}
+
+@media (max-width: 48rem) {
+    .upcoming__title {
+        font-size: 3.2rem;
+    }
+}

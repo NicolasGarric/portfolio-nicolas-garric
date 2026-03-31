@@ -21,10 +21,7 @@ function Hero() {
 
         {/* Boutons d'action */}
         <div className="hero__actions">
-            <a href="#games" className="hero__btn hero__btn--primary">
-            Voir les jeux
-            </a>
-            <a href="/contact" className="hero__btn hero__btn--secondary">
+            <a href="/contact" className="hero__btn hero__btn--primary">
             Me contacter
             </a>
         </div>

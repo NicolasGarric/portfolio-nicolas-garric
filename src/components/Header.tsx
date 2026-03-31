@@ -18,6 +18,9 @@ function Header() {
             {/* Nav desktop */}
             <nav className="header__nav">
                 <Link to="/" className="header__link">Accueil</Link>
+                <Link to="/games" className="header__link">Jeux</Link>
+                <Link to="/projects" className="header__link">Sites réalisés</Link>
+                <Link to="/upcoming" className="header__link">Projets à venir</Link>
                 <Link to="/contact" className="header__link">Contact</Link>
                 <Link to="/leaderboard" className="header__link">🏆 Classements</Link>
 
@@ -58,8 +61,11 @@ function Header() {
                         </button>
 
                         <Link to="/" className="header__modal-link" onClick={closeMenu}>Accueil</Link>
+                        <Link to="/games" className="header__modal-link" onClick={closeMenu}>Jeux</Link>
                         <Link to="/contact" className="header__modal-link" onClick={closeMenu}>Contact</Link>
                         <Link to="/leaderboard" className="header__modal-link" onClick={closeMenu}>🏆 Classements</Link>
+                        <Link to="/projects" className="header__modal-link" onClick={closeMenu}>Sites réalisés</Link>
+                        <Link to="/upcoming" className="header__modal-link" onClick={closeMenu}>Projets à venir</Link>
 
                         {user ? (
                             <>
