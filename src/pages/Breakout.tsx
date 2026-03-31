@@ -223,7 +223,7 @@ function Breakout() {
                         Flèches gauche/droite pour bouger la raquette
                     </p>
                     <p className="breakout-overlay__text">
-                        Espace pour lancer la balle
+                        Espace pour lancer la balle — ou les boutons tactiles
                     </p>
                     <button
                         className="breakout-overlay__btn"
@@ -257,6 +257,47 @@ function Breakout() {
                 </div>
             )}
             </div>
+
+            {/* Contrôles tactiles — visibles uniquement sur mobile */}
+            {started && !gameOver && !won && (
+                <div className="breakout-controls">
+                    <button
+                        className="breakout-controls__btn"
+                        onPointerDown={(e) => {
+                            e.currentTarget.setPointerCapture(e.pointerId)
+                            const wasm = (window as any).BreakoutWasm
+                            if (gameRef.current && wasm)
+                                gameRef.current.set_paddle_direction(wasm.PaddleDirection.Left)
+                        }}
+                        onPointerUp={() => {
+                            const wasm = (window as any).BreakoutWasm
+                            if (gameRef.current && wasm)
+                                gameRef.current.set_paddle_direction(wasm.PaddleDirection.None)
+                        }}
+                    >◀ Gauche</button>
+                    <button
+                        className="breakout-controls__btn breakout-controls__btn--launch"
+                        onPointerDown={() => {
+                            if (gameRef.current)
+                                gameRef.current.launch_ball()
+                        }}
+                    >● Lancer</button>
+                    <button
+                        className="breakout-controls__btn"
+                        onPointerDown={(e) => {
+                            e.currentTarget.setPointerCapture(e.pointerId)
+                            const wasm = (window as any).BreakoutWasm
+                            if (gameRef.current && wasm)
+                                gameRef.current.set_paddle_direction(wasm.PaddleDirection.Right)
+                        }}
+                        onPointerUp={() => {
+                            const wasm = (window as any).BreakoutWasm
+                            if (gameRef.current && wasm)
+                                gameRef.current.set_paddle_direction(wasm.PaddleDirection.None)
+                        }}
+                    >Droite ▶</button>
+                </div>
+            )}
 
         </section>
         </main>

@@ -185,7 +185,7 @@ function Snake() {
                     <div className="snake-overlay">
                         <h2 className="snake-overlay__title">🐍 Snake</h2>
                         <p className="snake-overlay__text">
-                            Utilise les flèches du clavier pour diriger le serpent
+                            Flèches du clavier ou boutons tactiles pour diriger le serpent
                         </p>
                         <button className="snake-overlay__btn" onClick={startGame}>
                             Jouer
@@ -204,6 +204,48 @@ function Snake() {
                     </div>
                 )}
                 </div>
+
+                {/* Contrôles tactiles — visibles uniquement sur mobile */}
+                {started && !gameOver && (
+                    <div className="snake-controls">
+                        <div className="snake-controls__row">
+                            <button
+                                className="snake-controls__btn"
+                                onPointerDown={() => {
+                                    const wasm = (window as any).SnakeWasm
+                                    if (gameRef.current && wasm)
+                                        gameRef.current.change_direction(wasm.Direction.Up)
+                                }}
+                            >▲</button>
+                        </div>
+                        <div className="snake-controls__row">
+                            <button
+                                className="snake-controls__btn"
+                                onPointerDown={() => {
+                                    const wasm = (window as any).SnakeWasm
+                                    if (gameRef.current && wasm)
+                                        gameRef.current.change_direction(wasm.Direction.Left)
+                                }}
+                            >◀</button>
+                            <button
+                                className="snake-controls__btn"
+                                onPointerDown={() => {
+                                    const wasm = (window as any).SnakeWasm
+                                    if (gameRef.current && wasm)
+                                        gameRef.current.change_direction(wasm.Direction.Down)
+                                }}
+                            >▼</button>
+                            <button
+                                className="snake-controls__btn"
+                                onPointerDown={() => {
+                                    const wasm = (window as any).SnakeWasm
+                                    if (gameRef.current && wasm)
+                                        gameRef.current.change_direction(wasm.Direction.Right)
+                                }}
+                            >▶</button>
+                        </div>
+                    </div>
+                )}
 
             </section>
         </main>

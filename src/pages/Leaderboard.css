@@ -147,8 +147,28 @@
 }
 
 @media (max-width: 48rem) {
+    .leaderboard {
+        padding: 2.4rem 1.6rem;
+    }
+
+    .leaderboard__title {
+        font-size: 2.8rem;
+    }
+
+    .leaderboard__header {
+        margin-bottom: 2.4rem;
+    }
+
     .leaderboard__tab {
         padding: 0.8rem 1.6rem;
         font-size: 1.4rem;
+    }
+
+    .leaderboard__section {
+        padding: 2rem 1.6rem;
+    }
+
+    .leaderboard__date {
+        display: none;
     }
 }

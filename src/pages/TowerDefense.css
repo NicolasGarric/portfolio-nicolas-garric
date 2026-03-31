@@ -294,3 +294,31 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+@media (max-width: 48rem) {
+    .td-page {
+        padding: 1.2rem;
+    }
+
+    .td-title {
+        font-size: 2.4rem;
+    }
+
+    .td-stats {
+        gap: 0.8rem;
+    }
+
+    .td-stat {
+        font-size: 1.4rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .td-panel {
+        min-width: unset;
+        padding: 1.6rem;
+    }
+
+    .td-towers {
+        grid-template-columns: 1fr;
+    }
+}

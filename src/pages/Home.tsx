@@ -5,6 +5,13 @@ import './Home.css'
 // La liste des jeux
 const games = [
     {
+        title: 'Solitaire',
+        description: 'Le classique jeu de cartes Klondike — classe toutes les cartes !',
+        emoji: '🃏',
+        path: '/games/solitaire',
+        available: true,
+    },
+    {
         title: 'Snake',
         description: 'Le classique jeu du serpent. Mange les pommes, évite les murs !',
         emoji: '🐍',

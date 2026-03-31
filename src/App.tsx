@@ -7,6 +7,7 @@ import Memory from './pages/Memory'
 import NasaQuiz from './pages/NasaQuiz'
 import TowerDefense from './pages/TowerDefense'
 import FoodGuessr from './pages/FoodGuessr'
+import Solitaire from './pages/Solitaire'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Login from './pages/Login'
@@ -28,6 +29,7 @@ function App() {
             <Route path="/games/nasa-quiz" element={<NasaQuiz />} />
             <Route path="/games/tower-defense" element={<TowerDefense />} />
             <Route path="/games/food-guessr" element={<FoodGuessr />} />
+            <Route path="/games/solitaire" element={<Solitaire />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/leaderboard" element={<Leaderboard />} />

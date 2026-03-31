@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import './Leaderboard.css'
 
 const GAMES = [
+    { id: 'solitaire', label: 'Solitaire', emoji: '🃏' },
     { id: 'snake', label: 'Snake', emoji: '🐍' },
     { id: 'breakout', label: 'Casse-briques', emoji: '🧱' },
     { id: 'memory', label: 'Mémory', emoji: '🃏' },
@@ -31,7 +32,7 @@ function Leaderboard() {
             .from('scores')
             .select('id, score, created_at, profiles (username)')
             .eq('game', game)
-            .order('score', { ascending: game === 'memory' })
+            .order('score', { ascending: game === 'memory' || game === 'solitaire' })
             .limit(10)
         setPublicScores((data as unknown as ScoreEntry[]) ?? [])
     }
@@ -43,7 +44,7 @@ function Leaderboard() {
             .select('id, score, created_at, profiles(username)')
             .eq('game', game)
             .eq('user_id', user.id)
-            .order('score', { ascending: game === 'memory' })
+            .order('score', { ascending: game === 'memory' || game === 'solitaire' })
             .limit(5)
         setMyScores((data as unknown as ScoreEntry[]) ?? [])
     }
@@ -68,6 +69,7 @@ function Leaderboard() {
 
     const formatScore = (game: string, score: number) => {
         if (game === 'memory') return `${score} tentatives`
+        if (game === 'solitaire') return `${score} coups`
         return `${score} pts`
     }
 

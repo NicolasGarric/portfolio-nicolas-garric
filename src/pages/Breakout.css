@@ -94,3 +94,69 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+@media (max-width: 48rem) {
+    .breakout-page {
+        padding: 2.4rem 1.2rem;
+        gap: 1.6rem;
+    }
+
+    .breakout-header {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+
+    .breakout-header__title {
+        font-size: 2.4rem;
+    }
+
+    .breakout-canvas-wrapper {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .breakout-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* ===== CONTRÔLES TACTILES ===== */
+.breakout-controls {
+    display: none;
+    gap: 1.2rem;
+    margin-top: 1.6rem;
+    justify-content: center;
+}
+
+.breakout-controls__btn {
+    width: 10rem;
+    height: 6.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.6rem;
+    font-weight: 700;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-secondary);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    transition: background-color var(--transition);
+}
+
+.breakout-controls__btn:active {
+    background-color: var(--color-purple);
+}
+
+.breakout-controls__btn--launch {
+    background: var(--gradient-purple-blue);
+    border-color: transparent;
+}
+
+@media (max-width: 56rem) {
+    .breakout-controls {
+        display: flex;
+    }
+}

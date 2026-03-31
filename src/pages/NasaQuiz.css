@@ -272,6 +272,14 @@
 }
 
 @media (max-width: 48rem) {
+    .nasa-quiz {
+        padding: 2.4rem 1.6rem;
+    }
+
+    .nasa-quiz__title {
+        font-size: 2.4rem;
+    }
+
     .nasa-quiz__answers {
         grid-template-columns: 1fr;
     }
@@ -282,5 +290,13 @@
 
     .nasa-quiz__image {
         height: 24rem;
+    }
+
+    .nasa-quiz__overlay-content {
+        padding: 2.4rem 2rem;
+    }
+
+    .nasa-quiz__overlay-title {
+        font-size: 2.4rem;
     }
 }

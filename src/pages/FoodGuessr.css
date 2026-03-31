@@ -332,3 +332,42 @@
         overflow-y: visible;
     }
 }
+
+@media (max-width: 48rem) {
+    .fg-page {
+        padding: 1.2rem;
+    }
+
+    .fg-title {
+        font-size: 2.4rem;
+    }
+
+    .fg-stats {
+        gap: 0.8rem;
+    }
+
+    .fg-stat {
+        font-size: 1.4rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .fg-overlay {
+        padding: 3.2rem 2rem;
+    }
+
+    .fg-overlay__title {
+        font-size: 2.8rem;
+    }
+
+    .fg-meal-image {
+        height: 20rem;
+    }
+
+    .fg-map-wrapper {
+        height: 32rem;
+    }
+
+    .fg-score-final {
+        font-size: 4rem;
+    }
+}

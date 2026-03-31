@@ -76,3 +76,70 @@
     opacity: 0.85;
     transform: translateY(-0.2rem);
 }
+
+@media (max-width: 48rem) {
+    .snake-page {
+        padding: 2.4rem 1.2rem;
+        gap: 1.6rem;
+    }
+
+    .snake-header {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+
+    .snake-header__title {
+        font-size: 2.4rem;
+    }
+
+    .snake-canvas-wrapper {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .snake-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* ===== CONTRÔLES TACTILES ===== */
+.snake-controls {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+}
+
+.snake-controls__row {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.snake-controls__btn {
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 2.4rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-secondary);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    transition: background-color var(--transition);
+}
+
+.snake-controls__btn:active {
+    background-color: var(--color-green-light);
+    color: var(--bg-primary);
+}
+
+@media (max-width: 56rem) {
+    .snake-controls {
+        display: flex;
+    }
+}

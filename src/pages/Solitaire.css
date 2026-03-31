@@ -1,0 +1,355 @@
+.sol-page {
+    max-width: 100rem;
+    margin: 0 auto;
+    padding: 2.4rem;
+}
+
+.sol-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.4rem;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+}
+
+.sol-title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sol-stats {
+    display: flex;
+    gap: 1.6rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sol-stat {
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding: 0.8rem 1.6rem;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+}
+
+.sol-new-game {
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: var(--gradient-purple-blue);
+    color: var(--text-primary);
+    transition: opacity var(--transition);
+}
+
+.sol-new-game:hover { opacity: 0.85; }
+
+/* ===== OVERLAY ===== */
+.sol-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 6.4rem 4.8rem;
+    text-align: center;
+    max-width: 56rem;
+    margin: 0 auto;
+    background-color: var(--bg-card);
+    border: 0.1rem solid var(--border-primary);
+    border-radius: var(--radius-lg);
+}
+
+.sol-overlay--won { border-color: var(--color-yellow); }
+.sol-overlay__emoji { font-size: 6.4rem; }
+
+.sol-overlay__title {
+    font-size: 3.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.sol-overlay__text {
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.sol-overlay__score {
+    font-size: 4.8rem;
+    font-weight: 800;
+    background: var(--gradient-main);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sol-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    background-color: var(--bg-secondary);
+    padding: 1.6rem 2.4rem;
+    border-radius: var(--radius-sm);
+    text-align: left;
+}
+
+.sol-btn {
+    padding: 1.2rem 4rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: var(--gradient-purple-blue);
+    color: var(--text-primary);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.sol-btn:hover:not(:disabled) {
+    opacity: 0.85;
+    transform: translateY(-0.2rem);
+}
+
+.sol-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ===== JEU ===== */
+.sol-game {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+.sol-top {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+}
+
+.sol-spacer { flex: 1; }
+
+/* ===== CARTES ===== */
+.sol-card {
+    position: absolute;
+    width: 8rem;
+    height: 11.2rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    user-select: none;
+    background: transparent;
+    border: none;
+    filter: drop-shadow(0 0.2rem 0.4rem rgba(0, 0, 0, 0.4));
+    transition: filter var(--transition);
+}
+
+.sol-card--draggable { cursor: grab; }
+.sol-card--draggable:active {
+    cursor: grabbing;
+    filter: drop-shadow(0 0.4rem 0.8rem rgba(0, 0, 0, 0.6));
+}
+.sol-card--draggable:hover {
+    filter: drop-shadow(0 0.4rem 1.2rem rgba(132, 94, 247, 0.5));
+}
+
+/* ===== PIOCHE ===== */
+.sol-stock {
+    position: relative;
+    width: 8rem;
+    height: 11.2rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.sol-stock__count {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.sol-stock--empty {
+    width: 8rem;
+    height: 11.2rem;
+    border: 0.2rem dashed var(--border-secondary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    color: var(--text-disabled);
+    cursor: pointer;
+    transition: border-color var(--transition);
+}
+
+.sol-stock--empty:hover {
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+}
+
+/* ===== DÉFAUSSE ===== */
+.sol-waste {
+    position: relative;
+    width: 8rem;
+    height: 11.2rem;
+    flex-shrink: 0;
+}
+
+/* ===== FONDATIONS ===== */
+.sol-foundation {
+    position: relative;
+    width: 8rem;
+    height: 11.2rem;
+    flex-shrink: 0;
+}
+
+.sol-foundation__empty {
+    width: 8rem;
+    height: 11.2rem;
+    border: 0.2rem dashed var(--border-secondary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.2rem;
+    color: var(--text-disabled);
+    transition: border-color var(--transition);
+}
+
+.sol-foundation:hover .sol-foundation__empty {
+    border-color: var(--color-green);
+}
+
+/* ===== CASE VIDE ===== */
+.sol-empty-slot {
+    width: 8rem;
+    height: 11.2rem;
+    border: 0.2rem dashed var(--border-secondary);
+    border-radius: var(--radius-sm);
+}
+
+.sol-empty-slot--king {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    color: var(--text-disabled);
+    font-weight: 700;
+}
+
+/* ===== TABLEAU ===== */
+.sol-tableau {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    --sol-card-h: 11.2rem;
+}
+
+.sol-column {
+    position: relative;
+    width: 8rem;
+    flex-shrink: 0;
+    min-height: var(--sol-card-h);
+}
+
+/* ===== TABLETTE ===== */
+@media (max-width: 80rem) {
+    .sol-card,
+    .sol-stock,
+    .sol-waste,
+    .sol-foundation,
+    .sol-empty-slot,
+    .sol-stock--empty,
+    .sol-foundation__empty {
+        width: 6.4rem;
+        height: 8.96rem;
+    }
+
+    .sol-column {
+        width: 6.4rem;
+        min-height: 8.96rem;
+    }
+
+    .sol-tableau {
+        gap: 0.8rem;
+        --sol-card-h: 8.96rem;
+    }
+    .sol-top { gap: 0.8rem; }
+}
+
+/* ===== MOBILE ===== */
+/* Cartes en vw pour remplir toute la largeur : (100vw - 2×1.2rem padding - 6×0.3rem gaps) / 7 */
+@media (max-width: 56rem) {
+    .sol-page { padding: 1.2rem; }
+
+    .sol-header {
+        margin-bottom: 1.2rem;
+        gap: 0.8rem;
+    }
+
+    .sol-title { font-size: 2.4rem; }
+    .sol-stats { gap: 0.8rem; }
+
+    .sol-stat {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .sol-new-game {
+        font-size: 1.2rem;
+        padding: 0.4rem 1.2rem;
+    }
+
+    .sol-card,
+    .sol-stock,
+    .sol-waste,
+    .sol-foundation,
+    .sol-empty-slot,
+    .sol-stock--empty,
+    .sol-foundation__empty {
+        width: calc((100vw - 4.2rem) / 7);
+        height: calc((100vw - 4.2rem) / 7 * 1.447);
+    }
+
+    .sol-column {
+        width: calc((100vw - 4.2rem) / 7);
+        min-height: calc((100vw - 4.2rem) / 7 * 1.447);
+    }
+
+    .sol-tableau {
+        gap: 0.3rem;
+        --sol-card-h: calc((100vw - 4.2rem) / 7 * 1.447);
+    }
+    .sol-top { gap: 0.3rem; }
+    .sol-game { gap: 1.2rem; }
+
+    .sol-foundation__empty { font-size: 2rem; }
+    .sol-empty-slot--king { font-size: 1.6rem; }
+
+    .sol-stock__count {
+        font-size: 1rem;
+        padding: 0.1rem 0.4rem;
+    }
+
+    .sol-stock--empty { font-size: 1.8rem; }
+    .sol-overlay { padding: 3.2rem 2.4rem; }
+    .sol-overlay__title { font-size: 2.8rem; }
+    .sol-overlay__score { font-size: 3.6rem; }
+
+    .sol-rules {
+        font-size: 1.2rem;
+        padding: 1.2rem 1.6rem;
+    }
+}

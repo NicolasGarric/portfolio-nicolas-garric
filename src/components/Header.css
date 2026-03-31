@@ -5,7 +5,6 @@
     padding: 1.6rem 4.8rem;
     background-color: var(--bg-secondary);
     border-bottom: 0.1rem solid var(--border-primary);
-    /* Reste visible en haut lors du scroll */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -56,4 +55,108 @@
 
 .header__btn:hover {
     opacity: 0.8;
+}
+
+/* ===== HAMBURGER ===== */
+.header__burger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2.4rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.4rem;
+    line-height: 1;
+}
+
+/* ===== OVERLAY ===== */
+.header__overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 200;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ===== MODAL PANEL ===== */
+.header__modal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    background-color: var(--bg-secondary);
+    width: 28rem;
+    max-width: 85vw;
+    height: 100%;
+    padding: 2rem 1.6rem;
+    border-left: 0.1rem solid var(--border-primary);
+    overflow-y: auto;
+}
+
+.header__modal-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.4rem;
+    margin-bottom: 1.6rem;
+    transition: color var(--transition);
+}
+
+.header__modal-close:hover {
+    color: var(--text-primary);
+}
+
+.header__modal-link {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 1.2rem 1.6rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.header__modal-link:hover {
+    color: var(--text-primary);
+    background-color: var(--border-primary);
+}
+
+.header__modal-link--register {
+    background: var(--gradient-purple-blue);
+    color: var(--text-primary) !important;
+    text-align: center;
+    margin-top: 0.8rem;
+}
+
+.header__modal-link--logout {
+    color: var(--text-disabled) !important;
+    border: 0.1rem solid var(--border-secondary);
+    margin-top: 0.8rem;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 48rem) {
+    .header {
+        padding: 1.2rem 1.6rem;
+    }
+
+    .header__logo {
+        font-size: 1.6rem;
+    }
+
+    .header__nav {
+        display: none;
+    }
+
+    .header__burger {
+        display: block;
+    }
 }
