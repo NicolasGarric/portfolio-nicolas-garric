@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import './Profile.css'
@@ -18,10 +19,10 @@ interface ScoreEntry {
 }
 
 function Profile() {
+    const { t, i18n } = useTranslation()
     const { user, profile, loading } = useAuth()
     const navigate = useNavigate()
 
-    // Redirige si non connecté
     useEffect(() => {
         if (!loading && !user) {
             navigate('/login')
@@ -33,14 +34,12 @@ function Profile() {
     const [saveSuccess, setSaveSuccess] = useState(false)
     const [myScores, setMyScores] = useState<ScoreEntry[]>([])
 
-    // Sync shareScores avec le profil chargé
     useEffect(() => {
         if (profile) {
             setShareScores(profile.share_scores)
         }
     }, [profile])
 
-    // Charge tous mes scores
     useEffect(() => {
         if (!user) return
 
@@ -58,7 +57,6 @@ function Profile() {
         loadScores()
     }, [user])
 
-    // Met à jour le choix de partage
     const handleSave = async () => {
         if (!user) return
         setSaving(true)
@@ -77,7 +75,7 @@ function Profile() {
     }
 
     const formatDate = (dateStr: string) => {
-        return new Date(dateStr).toLocaleDateString('fr-FR', {
+        return new Date(dateStr).toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : 'en-GB', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
@@ -96,12 +94,10 @@ function Profile() {
         return game ? `${game.emoji} ${game.label}` : gameId
     }
 
-    // Calcule le meilleur score par jeu
     const getBestScores = () => {
         const best: Record<string, number> = {}
         myScores.forEach(s => {
             if (s.game === 'memory') {
-                // Pour memory, le meilleur = le moins de tentatives
                 if (!best[s.game] || s.score < best[s.game]) {
                 best[s.game] = s.score
                 }
@@ -128,7 +124,6 @@ function Profile() {
         <main className="page">
             <section className="profile">
 
-                {/* En-tête profil */}
                 <div className="profile__header">
                     <div className="profile__avatar">
                         {profile?.username?.[0]?.toUpperCase() ?? '?'}
@@ -141,7 +136,7 @@ function Profile() {
 
                 {/* Meilleurs scores */}
                 <div className="profile__card">
-                    <h2 className="profile__card-title">🏆 Mes meilleurs scores</h2>
+                    <h2 className="profile__card-title">{t('profile.best_scores')}</h2>
                     <div className="profile__best-scores">
                         {GAMES.map(game => (
                             <div key={game.id} className="profile__best-score-item">
@@ -151,7 +146,7 @@ function Profile() {
                                 <span className="profile__best-score-value">
                                 {bestScores[game.id] !== undefined
                                     ? formatScore(game.id, bestScores[game.id])
-                                    : 'Pas encore joué'}
+                                    : t('profile.empty')}
                                 </span>
                             </div>
                         ))}
@@ -160,17 +155,17 @@ function Profile() {
 
                 {/* Paramètres de confidentialité */}
                 <div className="profile__card">
-                    <h2 className="profile__card-title">🔒 Confidentialité</h2>
+                    <h2 className="profile__card-title">{t('profile.privacy')}</h2>
 
                     <div className="profile__setting">
                         <div className="profile__setting-info">
                             <p className="profile__setting-label">
-                                Partager mes scores publiquement
+                                {t('profile.share_label')}
                             </p>
                             <p className="profile__setting-desc">
                                 {shareScores
-                                    ? '✅ Tes scores apparaissent dans le classement public'
-                                    : '🔒 Tes scores sont privés et invisibles des autres'}
+                                    ? t('profile.share_on')
+                                    : t('profile.share_off')}
                             </p>
                         </div>
                         <label className="profile__toggle">
@@ -184,7 +179,7 @@ function Profile() {
                     </div>
 
                     {saveSuccess && (
-                        <p className="profile__success">✅ Paramètres sauvegardés !</p>
+                        <p className="profile__success">{t('profile.saved')}</p>
                     )}
 
                     <button
@@ -192,25 +187,25 @@ function Profile() {
                         onClick={handleSave}
                         disabled={saving}
                     >
-                        {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+                        {saving ? t('profile.saving') : t('profile.save')}
                     </button>
                 </div>
 
                 {/* Historique des parties */}
                 <div className="profile__card">
-                    <h2 className="profile__card-title">📋 Historique des parties</h2>
+                    <h2 className="profile__card-title">{t('profile.history')}</h2>
 
                     {myScores.length === 0 ? (
                         <p className="profile__empty">
-                        Tu n'as pas encore joué — lance-toi ! 🎮
+                            {t('profile.empty')}
                         </p>
                     ) : (
                         <table className="profile__table">
                             <thead>
                                 <tr>
                                 <th>Jeu</th>
-                                <th>Score</th>
-                                <th>Date</th>
+                                <th>{t('leaderboard.score')}</th>
+                                <th>{t('leaderboard.date')}</th>
                                 </tr>
                             </thead>
                             <tbody>

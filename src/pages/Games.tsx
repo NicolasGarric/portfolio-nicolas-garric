@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import GameCard from '../components/GameCard'
 import './Games.css'
 
@@ -54,13 +55,15 @@ const games = [
 ]
 
 function Games() {
+    const { t } = useTranslation()
+
     return (
         <main className="page">
             <section className="games-page">
                 <div className="games-page__header">
-                    <h1 className="games-page__title">Les Jeux</h1>
+                    <h1 className="games-page__title">{t('games.title')}</h1>
                     <p className="games-page__subtitle">
-                        Tous les jeux sont développés en React et TypeScript
+                        {t('games.subtitle')}
                     </p>
                 </div>
 

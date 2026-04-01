@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import './Login.css'
 
 function Login() {
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const [email, setEmail] = useState('')
@@ -11,7 +13,7 @@ function Login() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault()
         setError('')
         setLoading(true)
@@ -22,7 +24,7 @@ function Login() {
         })
 
         if (error) {
-            setError('Email ou mot de passe incorrect')
+            setError(t('auth.login.error'))
         } else {
             navigate('/')
         }
@@ -35,9 +37,9 @@ function Login() {
         <section className="auth">
 
             <div className="auth__header">
-                <h1 className="auth__title">Connexion</h1>
+                <h1 className="auth__title">{t('auth.login.title')}</h1>
                 <p className="auth__subtitle">
-                    Connecte-toi pour sauvegarder tes scores
+                    {t('auth.login.subtitle')}
                 </p>
             </div>
 
@@ -45,7 +47,7 @@ function Login() {
 
             <div className="form__group">
                 <label className="form__label" htmlFor="email">
-                    Email
+                    {t('contact.email')}
                 </label>
                 <input
                 className="form__input"
@@ -80,13 +82,13 @@ function Login() {
                 type="submit"
                 disabled={loading}
             >
-                {loading ? 'Connexion...' : 'Se connecter'}
+                {loading ? t('auth.login.loading') : t('auth.login.btn')}
             </button>
 
             <p className="auth__switch">
-                Pas encore de compte ?{' '}
+                {t('auth.login.no_account')}{' '}
                 <Link to="/register" className="auth__link">
-                S'inscrire
+                    {t('auth.login.register')}
                 </Link>
             </p>
 

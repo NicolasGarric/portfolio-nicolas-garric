@@ -1,29 +1,32 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Hero from '../components/Hero'
 import './Home.css'
 
-const sections = [
-    {
-        label: 'Jeux',
-        description: 'Snake, Solitaire, Tower Defense et plus encore',
-        emoji: '🎮',
-        path: '/games',
-    },
-    {
-        label: 'Sites réalisés',
-        description: 'Projets clients développés en agence',
-        emoji: '🌐',
-        path: '/projects',
-    },
-    {
-        label: 'Projets à venir',
-        description: 'Ce qui arrive bientôt sur le portfolio',
-        emoji: '🚀',
-        path: '/upcoming',
-    },
-]
-
 function Home() {
+    const { t } = useTranslation()
+
+    const sections = [
+        {
+            label: t('nav.games'),
+            description: t('home.games_desc'),
+            emoji: '🎮',
+            path: '/games',
+        },
+        {
+            label: t('nav.projects'),
+            description: t('home.projects_desc'),
+            emoji: '🌐',
+            path: '/projects',
+        },
+        {
+            label: t('nav.upcoming'),
+            description: t('home.upcoming_desc'),
+            emoji: '🚀',
+            path: '/upcoming',
+        },
+    ]
+
     return (
         <main className="page">
             <Hero />

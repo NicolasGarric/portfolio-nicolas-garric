@@ -1,0 +1,120 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "contact": "Contact",
+        "games": "Jeux",
+        "projects": "Sites réalisés",
+        "upcoming": "Projets à venir",
+        "leaderboard": "Classements",
+        "login": "Connexion",
+        "register": "S'inscrire",
+        "logout": "Déconnexion"
+    },
+    "hero": {
+        "badge": "Développeur Web & Jeux",
+        "title": "Bonjour, je suis",
+        "subtitle": "Je crée des expériences web interactives et des jeux jouables directement dans ton navigateur.",
+        "cta_contact": "Me contacter"
+    },
+    "games": {
+        "title": "Les Jeux",
+        "subtitle": "Tous les jeux sont développés en Rust et WebAssembly",
+        "play": "Jouer",
+        "soon": "Bientôt"
+    },
+    "projects": {
+        "title": "Sites réalisés",
+        "subtitle": "Projets sur lesquels j'ai travaillé",
+        "role": "Mon rôle",
+        "visit": "Voir le site →",
+        "private": "Projet privé",
+        "role_fullstack": "Développeur Full Stack",
+        "desc_castor_pollux": "Site client développé chez Castor & Pollux"
+    },
+    "upcoming": {
+        "title": "Projets à venir",
+        "subtitle": "Ce sur quoi je travaille en ce moment",
+        "progress": "Avancement",
+        "status": {
+            "inProgress": "En cours",
+            "planned": "Planifié",
+            "paused": "En pause"
+        },
+        "p0_title": "Portfolio de jeux",
+        "p0_desc": "Portfolio interactif basé sur Rust/WebAssembly.",
+        "p1_title": "Site vitrine dark kitchen",
+        "p1_desc": "Création d'un site vitrine pour une dark kitchen à Bordeaux.",
+        "p2_title": "Site vitrine photographe",
+        "p2_desc": "Création d'un site vitrine pour un photographe afin d'exposer son travail.",
+        "p3_title": "Tower Defense complet",
+        "p3_desc": "Création d'un jeu Tower Defense inspiré de FTL et Mindustry."
+    },
+    "contact": {
+        "title": "Me contacter",
+        "subtitle": "Une question, une opportunité ? Envoie-moi un message !",
+        "name": "Nom",
+        "email": "Email",
+        "message": "Message",
+        "send": "Envoyer",
+        "sending": "Envoi en cours...",
+        "success": "✅ Message envoyé avec succès !",
+        "error": "❌ Erreur — vérifie le CAPTCHA et réessaie.",
+        "placeholder": {
+            "name": "Ton nom",
+            "message": "Ton message..."
+        }
+    },
+    "leaderboard": {
+        "title": "🏆 Classements",
+        "subtitle": "Les meilleurs scores de la communauté",
+        "player": "Joueur",
+        "score": "Score",
+        "date": "Date",
+        "empty": "Aucun score public pour l'instant — sois le premier ! 🎮",
+        "my_scores": "Mes meilleurs scores",
+        "private": "🔒 Tes scores sont privés. Tu peux modifier ce choix depuis ton profil."
+    },
+    "auth": {
+        "login": {
+            "title": "Connexion",
+            "subtitle": "Connecte-toi pour sauvegarder tes scores",
+            "btn": "Se connecter",
+            "loading": "Connexion...",
+            "error": "Email ou mot de passe incorrect",
+            "no_account": "Pas encore de compte ?",
+            "register": "S'inscrire"
+        },
+        "register": {
+            "title": "Inscription",
+            "subtitle": "Crée ton compte pour sauvegarder tes scores",
+            "btn": "Créer mon compte",
+            "loading": "Création...",
+            "username": "Pseudo",
+            "share": "Partager mes scores dans les classements publics",
+            "notice": "🔒 Tu pourras modifier ce choix depuis ton profil à tout moment",
+            "has_account": "Déjà un compte ?",
+            "login": "Se connecter"
+        }
+    },
+    "profile": {
+        "best_scores": "🏆 Mes meilleurs scores",
+        "privacy": "🔒 Confidentialité",
+        "share_label": "Partager mes scores publiquement",
+        "share_on": "✅ Tes scores apparaissent dans le classement public",
+        "share_off": "🔒 Tes scores sont privés",
+        "save": "Sauvegarder",
+        "saving": "Sauvegarde...",
+        "saved": "✅ Paramètres sauvegardés !",
+        "history": "📋 Historique des parties",
+        "empty": "Tu n'as pas encore joué — lance-toi ! 🎮"
+    },
+    "home": {
+        "games_desc": "Snake, Solitaire, Tower Defense et plus encore",
+        "projects_desc": "Projets clients développés en agence",
+        "upcoming_desc": "Ce qui arrive bientôt sur le portfolio"
+    },
+    "footer": {
+        "made": "Fait avec React & Rust 🦀",
+        "rights": "Tous droits réservés"
+    }
+}

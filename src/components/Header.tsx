@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../contexts/AuthContext'
 import './Header.css'
 
 function Header() {
     const { user, profile, signOut } = useAuth()
+    const { t, i18n } = useTranslation()
     const [menuOpen, setMenuOpen] = useState(false)
 
     const closeMenu = () => setMenuOpen(false)
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'fr' ? 'en' : 'fr'
+        i18n.changeLanguage(newLang)
+        localStorage.setItem('language', newLang)
+    }
 
     return (
         <header className="header">
@@ -17,12 +25,12 @@ function Header() {
 
             {/* Nav desktop */}
             <nav className="header__nav">
-                <Link to="/" className="header__link">Accueil</Link>
-                <Link to="/games" className="header__link">Jeux</Link>
-                <Link to="/projects" className="header__link">Sites réalisés</Link>
-                <Link to="/upcoming" className="header__link">Projets à venir</Link>
-                <Link to="/contact" className="header__link">Contact</Link>
-                <Link to="/leaderboard" className="header__link">🏆 Classements</Link>
+                <Link to="/" className="header__link">{t('nav.home')}</Link>
+                <Link to="/games" className="header__link">{t('nav.games')}</Link>
+                <Link to="/projects" className="header__link">{t('nav.projects')}</Link>
+                <Link to="/upcoming" className="header__link">{t('nav.upcoming')}</Link>
+                <Link to="/contact" className="header__link">{t('nav.contact')}</Link>
+                <Link to="/leaderboard" className="header__link">🏆 {t('nav.leaderboard')}</Link>
 
                 {user ? (
                     <>
@@ -30,17 +38,21 @@ function Header() {
                             👤 {profile?.username}
                         </Link>
                         <button className="header__btn header__btn--logout" onClick={signOut}>
-                            Déconnexion
+                            {t('nav.logout')}
                         </button>
                     </>
                 ) : (
                     <>
-                        <Link to="/login" className="header__link">Connexion</Link>
+                        <Link to="/login" className="header__link">{t('nav.login')}</Link>
                         <Link to="/register" className="header__btn header__btn--register">
-                            S'inscrire
+                            {t('nav.register')}
                         </Link>
                     </>
                 )}
+
+                <button className="header__lang" onClick={toggleLanguage}>
+                    {i18n.language === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
+                </button>
             </nav>
 
             {/* Bouton hamburger — mobile uniquement */}
@@ -60,12 +72,12 @@ function Header() {
                             ✕
                         </button>
 
-                        <Link to="/" className="header__modal-link" onClick={closeMenu}>Accueil</Link>
-                        <Link to="/games" className="header__modal-link" onClick={closeMenu}>Jeux</Link>
-                        <Link to="/contact" className="header__modal-link" onClick={closeMenu}>Contact</Link>
-                        <Link to="/leaderboard" className="header__modal-link" onClick={closeMenu}>🏆 Classements</Link>
-                        <Link to="/projects" className="header__modal-link" onClick={closeMenu}>Sites réalisés</Link>
-                        <Link to="/upcoming" className="header__modal-link" onClick={closeMenu}>Projets à venir</Link>
+                        <Link to="/" className="header__modal-link" onClick={closeMenu}>{t('nav.home')}</Link>
+                        <Link to="/games" className="header__modal-link" onClick={closeMenu}>{t('nav.games')}</Link>
+                        <Link to="/contact" className="header__modal-link" onClick={closeMenu}>{t('nav.contact')}</Link>
+                        <Link to="/leaderboard" className="header__modal-link" onClick={closeMenu}>🏆 {t('nav.leaderboard')}</Link>
+                        <Link to="/projects" className="header__modal-link" onClick={closeMenu}>{t('nav.projects')}</Link>
+                        <Link to="/upcoming" className="header__modal-link" onClick={closeMenu}>{t('nav.upcoming')}</Link>
 
                         {user ? (
                             <>
@@ -76,23 +88,27 @@ function Header() {
                                     className="header__modal-link header__modal-link--logout"
                                     onClick={() => { signOut(); closeMenu() }}
                                 >
-                                    Déconnexion
+                                    {t('nav.logout')}
                                 </button>
                             </>
                         ) : (
                             <>
                                 <Link to="/login" className="header__modal-link" onClick={closeMenu}>
-                                    Connexion
+                                    {t('nav.login')}
                                 </Link>
                                 <Link
                                     to="/register"
                                     className="header__modal-link header__modal-link--register"
                                     onClick={closeMenu}
                                 >
-                                    S'inscrire
+                                    {t('nav.register')}
                                 </Link>
                             </>
                         )}
+
+                        <button className="header__lang header__lang--mobile" onClick={toggleLanguage}>
+                            {i18n.language === 'fr' ? '🇬🇧 English' : '🇫🇷 Français'}
+                        </button>
                     </nav>
                 </div>
             )}

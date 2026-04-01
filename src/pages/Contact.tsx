@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import emailjs from 'emailjs-com'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import './Contact.css'
 
-// Les données du formulaire
 interface FormData {
     from_name: string
     from_email: string
@@ -11,42 +11,33 @@ interface FormData {
 }
 
 function Contact() {
-    // État du formulaire — useState garde en mémoire les valeurs
+    const { t } = useTranslation()
+
     const [formData, setFormData] = useState<FormData>({
         from_name: '',
         from_email: '',
         message: '',
     })
 
-    // État pour savoir si le CAPTCHA est validé
     const [captchaToken, setCaptchaToken] = useState<string | null>(null)
-
-    // États pour gérer l'envoi
     const [isSending, setIsSending] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
-
-    // Référence vers le composant hCaptcha pour pouvoir le réinitialiser
     const captchaRef = useRef<HCaptcha>(null)
 
-    // Met à jour le champ modifié dans formData
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    // Appelé quand le CAPTCHA est validé — on reçoit le token
     const handleCaptcha = (token: string) => {
         setCaptchaToken(token)
     }
 
-    // Appelé quand l'utilisateur soumet le formulaire
-    const handleSubmit = async (e: React.FormEvent) => {
-        // Empêche le rechargement de la page (comportement par défaut d'un form)
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault()
 
-        // Sécurité — on vérifie que le CAPTCHA est bien validé
         if (!captchaToken) {
             setError(true)
             return
@@ -63,7 +54,6 @@ function Contact() {
                 import.meta.env.VITE_EMAILJS_PUBLIC_KEY
             )
 
-            // Succès — on réinitialise tout
             setSuccess(true)
             setFormData({ from_name: '', from_email: '', message: '' })
             setCaptchaToken(null)
@@ -72,7 +62,6 @@ function Contact() {
         } catch (err) {
             setError(true)
         } finally {
-            // Dans tous les cas on arrête le chargement
             setIsSending(false)
         }
     }
@@ -82,18 +71,17 @@ function Contact() {
             <section className="contact">
 
                 <div className="contact__header">
-                    <h1 className="contact__title">Me contacter</h1>
+                    <h1 className="contact__title">{t('contact.title')}</h1>
                     <p className="contact__subtitle">
-                        Une question, une opportunité ? Envoie-moi un message !
+                        {t('contact.subtitle')}
                     </p>
                 </div>
 
                 <form className="contact__form" onSubmit={handleSubmit}>
 
-                {/* Champ Nom */}
                 <div className="form__group">
                     <label className="form__label" htmlFor="from_name">
-                        Nom
+                        {t('contact.name')}
                     </label>
                     <input
                         className="form__input"
@@ -102,15 +90,14 @@ function Contact() {
                         name="from_name"
                         value={formData.from_name}
                         onChange={handleChange}
-                        placeholder="Ton nom"
+                        placeholder={t('contact.placeholder.name')}
                         required
                     />
                 </div>
 
-                {/* Champ Email */}
                 <div className="form__group">
                     <label className="form__label" htmlFor="from_email">
-                        Email
+                        {t('contact.email')}
                     </label>
                     <input
                         className="form__input"
@@ -124,10 +111,9 @@ function Contact() {
                     />
                 </div>
 
-                {/* Champ Message */}
                 <div className="form__group">
                     <label className="form__label" htmlFor="message">
-                        Message
+                        {t('contact.message')}
                     </label>
                     <textarea
                         className="form__textarea"
@@ -135,13 +121,12 @@ function Contact() {
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        placeholder="Ton message..."
+                        placeholder={t('contact.placeholder.message')}
                         rows={6}
                         required
                     />
                 </div>
 
-                {/* CAPTCHA */}
                 <div className="form__captcha">
                     <HCaptcha
                         sitekey={import.meta.env.VITE_HCAPTCHA_SITE_KEY}
@@ -151,25 +136,19 @@ function Contact() {
                     />
                 </div>
 
-                {/* Messages de retour */}
                 {success && (
-                    <p className="form__success">
-                        ✅ Message envoyé avec succès !
-                    </p>
+                    <p className="form__success">{t('contact.success')}</p>
                 )}
                 {error && (
-                    <p className="form__error">
-                        ❌ Erreur — vérifie le CAPTCHA et réessaie.
-                    </p>
+                    <p className="form__error">{t('contact.error')}</p>
                 )}
 
-                {/* Bouton d'envoi */}
                 <button
                     className="form__btn"
                     type="submit"
                     disabled={isSending}
                 >
-                    {isSending ? 'Envoi en cours...' : 'Envoyer'}
+                    {isSending ? t('contact.sending') : t('contact.send')}
                 </button>
 
                 </form>

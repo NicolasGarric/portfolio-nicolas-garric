@@ -1,48 +1,43 @@
+import { useTranslation } from 'react-i18next'
 import './Projects.css'
 
 const projects = [
     {
         title: 'Bjorg',
         url: 'https://bjorg.fr',
-        role: 'Développeur Full Stack',
-        description: 'Site client développé chez Castor & Pollux',
         technologies: ['WordPress', 'Twig', 'ACF', 'PHP', 'JS ES6+', 'SCSS'],
         screenshot: '/screenshots/Bjorg.jpg',
     },
     {
         title: 'Azura',
         url: 'https://www.azura-snacking.com/',
-        role: 'Développeur Full Stack',
-        description: 'Site client développé chez Castor & Pollux',
         technologies: ['WordPress', 'Twig', 'ACF', 'PHP', 'JS ES6+', 'SCSS'],
         screenshot: '/screenshots/Azura.jpg',
     },
     {
         title: 'Fraîcheur de Paris',
         url: 'https://fraicheurdeparis.fr',
-        role: 'Développeur Full Stack',
-        description: 'Site client développé chez Castor & Pollux',
         technologies: ['WordPress', 'Twig', 'ACF', 'PHP', 'JS ES6+', 'SCSS'],
         screenshot: '/screenshots/Fraicheur%20de%20paris.jpg',
     },
     {
         title: 'Butagaz',
         url: 'https://butagaz.fr',
-        role: 'Développeur Full Stack',
-        description: 'Site client développé chez Castor & Pollux',
         technologies: ['WordPress', 'Twig', 'ACF', 'PHP', 'JS ES6+', 'SCSS'],
         screenshot: '/screenshots/Butagaz.jpg',
     },
 ]
 
 function Projects() {
+    const { t } = useTranslation()
+
     return (
         <main className="page">
             <section className="projects">
                 <div className="projects__header">
-                    <h1 className="projects__title">Sites réalisés</h1>
+                    <h1 className="projects__title">{t('projects.title')}</h1>
                     <p className="projects__subtitle">
-                        Projets sur lesquels j'ai travaillé
+                        {t('projects.subtitle')}
                     </p>
                 </div>
 
@@ -66,11 +61,11 @@ function Projects() {
                                     </h2>
 
                                     <p className="project-card__description">
-                                        {project.description}
+                                        {t('projects.desc_castor_pollux')}
                                     </p>
 
                                     <p className="project-card__role">
-                                        👤 {project.role}
+                                        👤 {t('projects.role_fullstack')}
                                     </p>
 
                                     <div className="project-card__techs">
@@ -89,11 +84,11 @@ function Projects() {
                                         rel="noopener noreferrer"
                                         className="project-card__link"
                                     >
-                                        Voir le site →
+                                        {t('projects.visit')}
                                     </a>
                                 ) : (
                                     <span className="project-card__link project-card__link--disabled">
-                                        Projet privé
+                                        {t('projects.private')}
                                     </span>
                                 )}
 

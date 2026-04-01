@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import './Login.css'
 
 function Register() {
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const [username, setUsername] = useState('')
@@ -13,12 +15,11 @@ function Register() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault()
         setError('')
         setLoading(true)
 
-        // Vérifie que le username n'est pas déjà pris
         const { data: existing } = await supabase
         .from('profiles')
         .select('username')
@@ -31,7 +32,6 @@ function Register() {
             return
         }
 
-        // Crée le compte — le trigger Supabase créera le profil automatiquement
         const { error } = await supabase.auth.signUp({
             email,
             password,
@@ -57,9 +57,9 @@ function Register() {
             <section className="auth">
 
                 <div className="auth__header">
-                    <h1 className="auth__title">Inscription</h1>
+                    <h1 className="auth__title">{t('auth.register.title')}</h1>
                     <p className="auth__subtitle">
-                        Crée ton compte pour sauvegarder tes scores
+                        {t('auth.register.subtitle')}
                     </p>
                 </div>
 
@@ -67,7 +67,7 @@ function Register() {
 
                 <div className="form__group">
                     <label className="form__label" htmlFor="username">
-                    Pseudo
+                        {t('auth.register.username')}
                     </label>
                     <input
                     className="form__input"
@@ -84,7 +84,7 @@ function Register() {
 
                 <div className="form__group">
                     <label className="form__label" htmlFor="email">
-                    Email
+                        {t('contact.email')}
                     </label>
                     <input
                     className="form__input"
@@ -99,7 +99,7 @@ function Register() {
 
                 <div className="form__group">
                     <label className="form__label" htmlFor="password">
-                    Mot de passe
+                        Mot de passe
                     </label>
                     <input
                     className="form__input"
@@ -113,7 +113,6 @@ function Register() {
                     />
                 </div>
 
-                {/* Choix de partage des scores */}
                 <div className="form__group form__group--checkbox">
                     <input
                     type="checkbox"
@@ -123,12 +122,12 @@ function Register() {
                     onChange={e => setShareScores(e.target.checked)}
                     />
                     <label htmlFor="shareScores" className="form__label--checkbox">
-                    Partager mes scores dans les classements publics
+                        {t('auth.register.share')}
                     </label>
                 </div>
 
                 <p className="auth__notice">
-                    🔒 Tu pourras modifier ce choix depuis ton profil à tout moment
+                    {t('auth.register.notice')}
                 </p>
 
                 {error && <p className="form__error">❌ {error}</p>}
@@ -138,13 +137,13 @@ function Register() {
                     type="submit"
                     disabled={loading}
                 >
-                    {loading ? 'Création...' : 'Créer mon compte'}
+                    {loading ? t('auth.register.loading') : t('auth.register.btn')}
                 </button>
 
                 <p className="auth__switch">
-                    Déjà un compte ?{' '}
+                    {t('auth.register.has_account')}{' '}
                     <Link to="/login" className="auth__link">
-                    Se connecter
+                        {t('auth.register.login')}
                     </Link>
                 </p>
 

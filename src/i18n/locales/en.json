@@ -1,0 +1,120 @@
+{
+    "nav": {
+        "home": "Home",
+        "contact": "Contact",
+        "games": "Games",
+        "projects": "Projects",
+        "upcoming": "Coming soon",
+        "leaderboard": "Leaderboard",
+        "login": "Sign in",
+        "register": "Sign up",
+        "logout": "Sign out"
+    },
+    "hero": {
+        "badge": "Web & Game Developer",
+        "title": "Hello, I am",
+        "subtitle": "I build interactive web experiences and games playable directly in your browser.",
+        "cta_contact": "Contact me"
+    },
+    "games": {
+        "title": "Games",
+        "subtitle": "All games are built with Rust and WebAssembly",
+        "play": "Play",
+        "soon": "Coming soon"
+    },
+    "projects": {
+        "title": "Projects",
+        "subtitle": "Projects I've worked on",
+        "role": "My role",
+        "visit": "Visit site →",
+        "private": "Private project",
+        "role_fullstack": "Full Stack Developer",
+        "desc_castor_pollux": "Client project developed at Castor & Pollux"
+    },
+    "upcoming": {
+        "title": "Coming soon",
+        "subtitle": "What I'm currently working on",
+        "progress": "Progress",
+        "status": {
+            "inProgress": "In progress",
+            "planned": "Planned",
+            "paused": "Paused"
+        },
+        "p0_title": "Games Portfolio",
+        "p0_desc": "Interactive portfolio based in Rust/WebAssembly.",
+        "p1_title": "Dark Kitchen Showcase Site",
+        "p1_desc": "Creating a showcase site for a dark kitchen in Bordeaux, France.",
+        "p2_title": "Photographer Showcase Site",
+        "p2_desc": "Creating a showcase site for a photographer in order to show his art.",
+        "p3_title": "Tower Defense Full Game",
+        "p3_desc": "Creating a full tower defense game inspired by FTL and Mindustry."
+    },
+    "contact": {
+        "title": "Contact me",
+        "subtitle": "A question, an opportunity? Send me a message!",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "send": "Send",
+        "sending": "Sending...",
+        "success": "✅ Message sent successfully!",
+        "error": "❌ Error — check the CAPTCHA and try again.",
+        "placeholder": {
+            "name": "Your name",
+            "message": "Your message..."
+        }
+    },
+    "leaderboard": {
+        "title": "🏆 Leaderboard",
+        "subtitle": "Community top scores",
+        "player": "Player",
+        "score": "Score",
+        "date": "Date",
+        "empty": "No public scores yet — be the first! 🎮",
+        "my_scores": "My best scores",
+        "private": "🔒 Your scores are private. You can change this in your profile."
+    },
+    "auth": {
+        "login": {
+            "title": "Sign in",
+            "subtitle": "Sign in to save your scores",
+            "btn": "Sign in",
+            "loading": "Signing in...",
+            "error": "Incorrect email or password",
+            "no_account": "Don't have an account?",
+            "register": "Sign up"
+        },
+        "register": {
+            "title": "Sign up",
+            "subtitle": "Create your account to save your scores",
+            "btn": "Create account",
+            "loading": "Creating...",
+            "username": "Username",
+            "share": "Share my scores in public leaderboards",
+            "notice": "🔒 You can change this in your profile at any time",
+            "has_account": "Already have an account?",
+            "login": "Sign in"
+        }
+    },
+    "profile": {
+        "best_scores": "🏆 My best scores",
+        "privacy": "🔒 Privacy",
+        "share_label": "Share my scores publicly",
+        "share_on": "✅ Your scores appear in the public leaderboard",
+        "share_off": "🔒 Your scores are private",
+        "save": "Save",
+        "saving": "Saving...",
+        "saved": "✅ Settings saved!",
+        "history": "📋 Game history",
+        "empty": "You haven't played yet — get started! 🎮"
+    },
+    "home": {
+        "games_desc": "Snake, Solitaire, Tower Defense and more",
+        "projects_desc": "Client projects developed in agency",
+        "upcoming_desc": "What's coming soon to the portfolio"
+    },
+    "footer": {
+        "made": "Built with React & Rust 🦀",
+        "rights": "All rights reserved"
+    }
+}

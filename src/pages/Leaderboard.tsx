@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import './Leaderboard.css'
@@ -21,6 +22,7 @@ interface ScoreEntry {
 }
 
 function Leaderboard() {
+    const { t, i18n } = useTranslation()
     const { user, profile } = useAuth()
     const [activeGame, setActiveGame] = useState('snake')
     const [publicScores, setPublicScores] = useState<ScoreEntry[]>([])
@@ -60,7 +62,7 @@ function Leaderboard() {
     }, [activeGame, user])
 
     const formatDate = (dateStr: string) => {
-        return new Date(dateStr).toLocaleDateString('fr-FR', {
+        return new Date(dateStr).toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : 'en-GB', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
@@ -80,9 +82,9 @@ function Leaderboard() {
             <section className="leaderboard">
 
                 <div className="leaderboard__header">
-                    <h1 className="leaderboard__title">🏆 Classements</h1>
+                    <h1 className="leaderboard__title">{t('leaderboard.title')}</h1>
                     <p className="leaderboard__subtitle">
-                        Les meilleurs scores de la communauté
+                        {t('leaderboard.subtitle')}
                     </p>
                 </div>
 
@@ -103,7 +105,7 @@ function Leaderboard() {
 
                 <div className="leaderboard__content">
 
-                    {/* Classement public — SANS date */}
+                    {/* Classement public */}
                     <div className="leaderboard__section">
                         <h2 className="leaderboard__section-title">
                             Top 10 — {activeGameData.emoji} {activeGameData.label}
@@ -113,15 +115,15 @@ function Leaderboard() {
                             <p className="leaderboard__loading">Chargement...</p>
                         ) : publicScores.length === 0 ? (
                             <p className="leaderboard__empty">
-                                Aucun score public pour l'instant — sois le premier ! 🎮
+                                {t('leaderboard.empty')}
                             </p>
                         ) : (
                             <table className="leaderboard__table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Joueur</th>
-                                        <th>Score</th>
+                                        <th>{t('leaderboard.player')}</th>
+                                        <th>{t('leaderboard.score')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -148,30 +150,30 @@ function Leaderboard() {
                         )}
                     </div>
 
-                    {/* Mes scores — AVEC date */}
+                    {/* Mes scores */}
                     {user && (
                         <div className="leaderboard__section">
                             <h2 className="leaderboard__section-title">
-                                Mes meilleurs scores
+                                {t('leaderboard.my_scores')}
                             </h2>
 
                             {!profile?.share_scores && (
                                 <p className="leaderboard__private-notice">
-                                    🔒 Tes scores sont privés. Tu peux modifier ce choix depuis ton profil.
+                                    {t('leaderboard.private')}
                                 </p>
                             )}
 
                             {myScores.length === 0 ? (
                                 <p className="leaderboard__empty">
-                                    Tu n'as pas encore joué à ce jeu !
+                                    {t('profile.empty')}
                                 </p>
                             ) : (
                                 <table className="leaderboard__table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Score</th>
-                                            <th>Date</th>
+                                            <th>{t('leaderboard.score')}</th>
+                                            <th>{t('leaderboard.date')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

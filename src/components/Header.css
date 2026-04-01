@@ -160,3 +160,28 @@
         display: block;
     }
 }
+
+.header__lang {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-sm);
+    border: 0.1rem solid var(--border-secondary);
+    transition: all var(--transition);
+    cursor: pointer;
+    background: transparent;
+}
+
+.header__lang:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
+
+.header__lang--mobile {
+    width: 100%;
+    text-align: center;
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    margin-top: 0.8rem;
+}

@@ -1,54 +1,24 @@
+import { useTranslation } from 'react-i18next'
 import './Upcoming.css'
 
-// Les statuts possibles d'un projet
-// Tu peux en ajouter d'autres si tu veux
-const STATUS = {
-    inProgress: 'En cours',
-    planned: 'Planifié',
-    paused: 'En pause',
-}
-
-// Tes projets à venir — modifie avec tes vraies infos
 const upcomingProjects = [
-    {
-        title: 'Portfolio de jeux',
-        description: 'Interactive portfolio based in Rust/WebAssembly.',
-        technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'],
-        progress: 80,
-        status: 'inProgress',
-    },
-    {
-        title: 'Dark kitchen showcase site',
-        description: 'Creating a showcase site for a dark kitchen in Bordeaux, France.',
-        technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'],
-        progress: 80,
-        status: 'inProgress',
-    },
-    {
-        title: 'Photographer showcase site',
-        description: 'Creating a showcase site for a photographer in order to show his art.',
-        technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'],
-        progress: 20,
-        status: 'planned',
-    },
-    {
-        title: 'Tower Defense full game',
-        description: 'Creating a full tower defense game based from a mix about FTL and Mindustry.',
-        technologies: ['Rust', 'React'],
-        progress: 10,
-        status: 'planned',
-    },
+    { titleKey: 'upcoming.p0_title', descKey: 'upcoming.p0_desc', technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'], progress: 80, status: 'inProgress' },
+    { titleKey: 'upcoming.p1_title', descKey: 'upcoming.p1_desc', technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'], progress: 80, status: 'inProgress' },
+    { titleKey: 'upcoming.p2_title', descKey: 'upcoming.p2_desc', technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'], progress: 20, status: 'planned' },
+    { titleKey: 'upcoming.p3_title', descKey: 'upcoming.p3_desc', technologies: ['Rust', 'React'], progress: 10, status: 'planned' },
 ]
 
 function Upcoming() {
+    const { t } = useTranslation()
+
     return (
         <main className="page">
             <section className="upcoming">
 
                 <div className="upcoming__header">
-                    <h1 className="upcoming__title">Projets à venir</h1>
+                    <h1 className="upcoming__title">{t('upcoming.title')}</h1>
                     <p className="upcoming__subtitle">
-                        Ce sur quoi je travaille en ce moment
+                        {t('upcoming.subtitle')}
                     </p>
                 </div>
 
@@ -58,15 +28,15 @@ function Upcoming() {
 
                             <div className="upcoming-card__top">
                                 <h2 className="upcoming-card__title">
-                                    {project.title}
+                                    {t(project.titleKey)}
                                 </h2>
                                 <span className={`upcoming-card__status upcoming-card__status--${project.status}`}>
-                                    {STATUS[project.status as keyof typeof STATUS]}
+                                    {t(`upcoming.status.${project.status}`)}
                                 </span>
                             </div>
 
                             <p className="upcoming-card__description">
-                                {project.description}
+                                {t(project.descKey)}
                             </p>
 
                             <div className="upcoming-card__techs">
@@ -79,7 +49,7 @@ function Upcoming() {
 
                             <div className="upcoming-card__progress-wrapper">
                                 <div className="upcoming-card__progress-label">
-                                    <span>Avancement</span>
+                                    <span>{t('upcoming.progress')}</span>
                                     <span>{project.progress}%</span>
                                 </div>
                                 <div className="upcoming-card__progress-bar">
