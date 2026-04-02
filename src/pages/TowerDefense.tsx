@@ -49,12 +49,7 @@ function TowerDefense() {
     useEffect(() => {
         const script = document.createElement('script')
         script.type = 'module'
-        script.innerHTML = `
-            import init, * as TowerDefenseWasm from '/tower-defense-wasm/tower_defense.js';
-            await init();
-            window.TowerDefenseWasm = TowerDefenseWasm;
-            window.dispatchEvent(new Event('tower-defense-wasm-ready'));
-        `
+        script.src = '/wasm-loaders/tower-defense-loader.js'
         document.head.appendChild(script)
 
         window.addEventListener('tower-defense-wasm-ready', () => {

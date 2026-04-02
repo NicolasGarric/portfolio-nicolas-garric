@@ -36,12 +36,7 @@ function Solitaire() {
     useEffect(() => {
         const script = document.createElement('script')
         script.type = 'module'
-        script.innerHTML = `
-            import init, * as SolitaireWasm from '/solitaire-wasm/solitaire.js';
-            await init();
-            window.SolitaireWasm = SolitaireWasm;
-            window.dispatchEvent(new Event('solitaire-wasm-ready'));
-        `
+        script.src = '/wasm-loaders/solitaire-loader.js'
         document.head.appendChild(script)
         window.addEventListener('solitaire-wasm-ready', () => setWasmReady(true), { once: true })
     }, [])

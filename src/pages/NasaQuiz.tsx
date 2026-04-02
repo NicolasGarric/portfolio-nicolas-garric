@@ -106,12 +106,7 @@ function NasaQuiz() {
     useEffect(() => {
         const script = document.createElement('script')
         script.type = 'module'
-        script.innerHTML = `
-            import init, * as NasaQuizWasm from '/nasa-quiz-wasm/nasa_quiz.js';
-            await init();
-            window.NasaQuizWasm = NasaQuizWasm;
-            window.dispatchEvent(new Event('nasa-quiz-wasm-ready'));
-        `
+        script.src = '/wasm-loaders/nasa-quiz-loader.js'
         document.head.appendChild(script)
 
         window.addEventListener('nasa-quiz-wasm-ready', () => {
