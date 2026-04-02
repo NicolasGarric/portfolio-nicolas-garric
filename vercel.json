@@ -7,6 +7,24 @@
     ],
     "headers": [
         {
+            "source": "/(.*)\\.js",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/javascript"
+                }
+            ]
+        },
+        {
+            "source": "/(.*)\\.wasm",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/wasm"
+                }
+            ]
+        },
+        {
             "source": "/(.*)",
             "headers": [
                 {
