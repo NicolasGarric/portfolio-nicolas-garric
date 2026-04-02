@@ -1,0 +1,15 @@
+{
+  "name": "breakout",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "breakout_bg.wasm",
+    "breakout.js",
+    "breakout.d.ts"
+  ],
+  "main": "breakout.js",
+  "types": "breakout.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

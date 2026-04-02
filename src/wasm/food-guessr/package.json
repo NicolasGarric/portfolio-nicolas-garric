@@ -1,0 +1,15 @@
+{
+  "name": "food-guessr",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "food_guessr_bg.wasm",
+    "food_guessr.js",
+    "food_guessr.d.ts"
+  ],
+  "main": "food_guessr.js",
+  "types": "food_guessr.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "tower-defense",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "tower_defense_bg.wasm",
+    "tower_defense.js",
+    "tower_defense.d.ts"
+  ],
+  "main": "tower_defense.js",
+  "types": "tower_defense.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

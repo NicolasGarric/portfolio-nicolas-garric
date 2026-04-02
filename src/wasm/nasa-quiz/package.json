@@ -1,0 +1,15 @@
+{
+  "name": "nasa-quiz",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "nasa_quiz_bg.wasm",
+    "nasa_quiz.js",
+    "nasa_quiz.d.ts"
+  ],
+  "main": "nasa_quiz.js",
+  "types": "nasa_quiz.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
