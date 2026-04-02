@@ -27,7 +27,12 @@ function Snake() {
             try {
                 const script = document.createElement('script')
                 script.type = 'module'
-                script.src = '/wasm-loaders/snake-loader.js'
+                script.innerHTML = `
+                    import init, * as SnakeWasm from '/snake-wasm/snake.js';
+                    await init();
+                    window.SnakeWasm = SnakeWasm;
+                    window.dispatchEvent(new Event('wasm-ready'));
+                `
                 document.head.appendChild(script)
             } catch (err) {
                 console.error('Erreur chargement WASM:', err)
@@ -40,7 +45,7 @@ function Snake() {
         const wasm = (window as any).SnakeWasm
         if (!wasm) {
             // WASM pas encore chargé — on attend l'événement
-            window.addEventListener('snake-wasm-ready', () => {
+            window.addEventListener('wasm-ready', () => {
             const w = (window as any).SnakeWasm
             gameRef.current = w.GameState.new()
             setScore(0)

@@ -24,7 +24,12 @@ function Memory() {
     useEffect(() => {
         const script = document.createElement('script')
         script.type = 'module'
-        script.src = '/wasm-loaders/memory-loader.js'
+        script.innerHTML = `
+        import init, * as MemoryWasm from '/memory-wasm/memory.js';
+        await init();
+        window.MemoryWasm = MemoryWasm;
+        window.dispatchEvent(new Event('memory-wasm-ready'));
+        `
         document.head.appendChild(script)
 
         window.addEventListener('memory-wasm-ready', () => {
