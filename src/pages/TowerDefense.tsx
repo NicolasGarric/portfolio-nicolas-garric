@@ -42,7 +42,7 @@ function TowerDefense() {
     const [baseHp, setBaseHp] = useState(20)
     const [wave, setWave] = useState(0)
     const [waveInProgress, setWaveInProgress] = useState(false)
-    const [score, setScore] = useState(0)
+    const [, setScore] = useState(0)
     const [message, setMessage] = useState('')
 
     // Charge le WASM

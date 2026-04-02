@@ -108,7 +108,7 @@ function Snake() {
             // Récupère l'état depuis Rust
             const cells = gameRef.current.get_cells()
             const width = gameRef.current.get_width()
-            const height = gameRef.current.get_height()
+            gameRef.current.get_height()
             const currentScore = gameRef.current.get_score()
             const isGameOver = gameRef.current.is_game_over()
 

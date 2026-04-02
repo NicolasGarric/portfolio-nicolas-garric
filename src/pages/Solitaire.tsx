@@ -2,10 +2,6 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { useScore } from '../hooks/useScore'
 import './Solitaire.css'
 
-// Symboles des couleurs
-const SUIT_SYMBOLS = ['♠', '♥', '♦', '♣']
-const SUIT_NAMES = ['spades', 'hearts', 'diamonds', 'clubs']
-const RANK_LABELS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
 
 interface CardData {
     suit: number
@@ -157,8 +153,6 @@ function Solitaire() {
         setDragInfo(null)
         syncState()
     }
-
-    const isRed = (suit: number) => suit === 1 || suit === 2
 
     const renderCard = (
         card: CardData,
