@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useScore } from '../hooks/useScore'
 import './NasaQuiz.css'
+import init, * as NasaQuizWasmModule from '../wasm/nasa-quiz/nasa_quiz.js'
 
 // Structure d'une image NASA APOD
 interface ApodData {
@@ -104,19 +105,10 @@ function NasaQuiz() {
 
     // Charge le WASM
     useEffect(() => {
-        const script = document.createElement('script')
-        script.type = 'module'
-        script.innerHTML = `
-            import init, * as NasaQuizWasm from '/nasa-quiz-wasm/nasa_quiz.js';
-            await init();
-            window.NasaQuizWasm = NasaQuizWasm;
-            window.dispatchEvent(new Event('nasa-quiz-wasm-ready'));
-        `
-        document.head.appendChild(script)
-
-        window.addEventListener('nasa-quiz-wasm-ready', () => {
+        init().then(() => {
+            (window as any).NasaQuizWasm = NasaQuizWasmModule
             setWasmReady(true)
-        }, { once: true })
+        })
     }, [])
 
     // Récupère les images NASA

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import init, * as FoodGuessrWasmModule from '../wasm/food-guessr/food_guessr.js'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -86,16 +87,10 @@ function FoodGuessr() {
 
     // Charge le WASM
     useEffect(() => {
-        const script = document.createElement('script')
-        script.type = 'module'
-        script.innerHTML = `
-            import init, * as FoodGuessrWasm from '/food-guessr-wasm/food_guessr.js';
-            await init();
-            window.FoodGuessrWasm = FoodGuessrWasm;
-            window.dispatchEvent(new Event('food-guessr-wasm-ready'));
-        `
-        document.head.appendChild(script)
-        window.addEventListener('food-guessr-wasm-ready', () => setWasmReady(true), { once: true })
+        init().then(() => {
+            (window as any).FoodGuessrWasm = FoodGuessrWasmModule
+            setWasmReady(true)
+        })
     }, [])
 
     // Récupère les plats depuis TheMealDB

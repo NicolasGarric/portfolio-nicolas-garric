@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useScore } from '../hooks/useScore'
 import './TowerDefense.css'
+import init, * as TowerDefenseWasmModule from '../wasm/tower-defense/tower_defense.js'
 
 const CELL_SIZE = 40
 const GRID_WIDTH = 20
@@ -47,19 +48,10 @@ function TowerDefense() {
 
     // Charge le WASM
     useEffect(() => {
-        const script = document.createElement('script')
-        script.type = 'module'
-        script.innerHTML = `
-            import init, * as TowerDefenseWasm from '/tower-defense-wasm/tower_defense.js';
-            await init();
-            window.TowerDefenseWasm = TowerDefenseWasm;
-            window.dispatchEvent(new Event('tower-defense-wasm-ready'));
-        `
-        document.head.appendChild(script)
-
-        window.addEventListener('tower-defense-wasm-ready', () => {
+        init().then(() => {
+            (window as any).TowerDefenseWasm = TowerDefenseWasmModule
             setWasmReady(true)
-        }, { once: true })
+        })
     }, [])
 
     // Démarre le jeu

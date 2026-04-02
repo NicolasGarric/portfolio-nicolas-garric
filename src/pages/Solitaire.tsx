@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useScore } from '../hooks/useScore'
 import './Solitaire.css'
+import init, * as SolitaireWasmModule from '../wasm/solitaire/solitaire.js'
 
 
 interface CardData {
@@ -34,16 +35,10 @@ function Solitaire() {
 
     // Charge le WASM
     useEffect(() => {
-        const script = document.createElement('script')
-        script.type = 'module'
-        script.innerHTML = `
-            import init, * as SolitaireWasm from '/solitaire-wasm/solitaire.js';
-            await init();
-            window.SolitaireWasm = SolitaireWasm;
-            window.dispatchEvent(new Event('solitaire-wasm-ready'));
-        `
-        document.head.appendChild(script)
-        window.addEventListener('solitaire-wasm-ready', () => setWasmReady(true), { once: true })
+        init().then(() => {
+            (window as any).SolitaireWasm = SolitaireWasmModule
+            setWasmReady(true)
+        })
     }, [])
 
     // Synchronise l'état Rust → React

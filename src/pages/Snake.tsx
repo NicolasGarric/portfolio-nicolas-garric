@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Snake.css'
 import { useScore } from '../hooks/useScore'
+import init, * as SnakeWasmModule from '../wasm/snake/snake.js'
 
 // Taille d'une case en pixels
 const CELL_SIZE = 24
@@ -19,41 +20,20 @@ function Snake() {
     const [score, setScore] = useState(0)
     const [gameOver, setGameOver] = useState(false)
     const [started, setStarted] = useState(false)
+    const [wasmReady, setWasmReady] = useState(false)
     const { saveScore } = useScore()
 
     // Charge le module WASM au démarrage
     useEffect(() => {
-        async function loadWasm() {
-            try {
-                const script = document.createElement('script')
-                script.type = 'module'
-                script.innerHTML = `
-                    import init, * as SnakeWasm from '/snake-wasm/snake.js';
-                    await init();
-                    window.SnakeWasm = SnakeWasm;
-                    window.dispatchEvent(new Event('wasm-ready'));
-                `
-                document.head.appendChild(script)
-            } catch (err) {
-                console.error('Erreur chargement WASM:', err)
-            }
-        }
-        loadWasm()
+        init().then(() => {
+            (window as any).SnakeWasm = SnakeWasmModule
+            setWasmReady(true)
+        })
     }, [])
 
     const startGame = () => {
         const wasm = (window as any).SnakeWasm
-        if (!wasm) {
-            // WASM pas encore chargé — on attend l'événement
-            window.addEventListener('wasm-ready', () => {
-            const w = (window as any).SnakeWasm
-            gameRef.current = w.GameState.new()
-            setScore(0)
-            setGameOver(false)
-            setStarted(true)
-            }, { once: true })
-            return
-        }
+        if (!wasm) return
 
         gameRef.current = wasm.GameState.new()
         setScore(0)
@@ -187,8 +167,8 @@ function Snake() {
                         <p className="snake-overlay__text">
                             Flèches du clavier ou boutons tactiles pour diriger le serpent
                         </p>
-                        <button className="snake-overlay__btn" onClick={startGame}>
-                            Jouer
+                        <button className="snake-overlay__btn" onClick={startGame} disabled={!wasmReady}>
+                            {wasmReady ? 'Jouer' : 'Chargement...'}
                         </button>
                     </div>
                 )}

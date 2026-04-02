@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './Memory.css'
 import { useScore } from '../hooks/useScore'
+import init, * as MemoryWasmModule from '../wasm/memory/memory.js'
 
 // Emojis associés à chaque valeur de carte (0 à 7)
 const CARD_EMOJIS = ['🦀', '🐍', '🎮', '🚀', '⭐', '🎯', '🔥', '💎']
@@ -22,19 +23,10 @@ function Memory() {
 
     // Charge le WASM
     useEffect(() => {
-        const script = document.createElement('script')
-        script.type = 'module'
-        script.innerHTML = `
-        import init, * as MemoryWasm from '/memory-wasm/memory.js';
-        await init();
-        window.MemoryWasm = MemoryWasm;
-        window.dispatchEvent(new Event('memory-wasm-ready'));
-        `
-        document.head.appendChild(script)
-
-        window.addEventListener('memory-wasm-ready', () => {
-        setWasmReady(true)
-        }, { once: true })
+        init().then(() => {
+            (window as any).MemoryWasm = MemoryWasmModule
+            setWasmReady(true)
+        })
     }, [])
 
     // Démarre une nouvelle partie
