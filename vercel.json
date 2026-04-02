@@ -7,16 +7,16 @@
     ],
     "headers": [
         {
-            "source": "/(.*)\\.js",
+            "source": "/:path*.js",
             "headers": [
                 {
                     "key": "Content-Type",
-                    "value": "application/javascript"
+                    "value": "application/javascript; charset=utf-8"
                 }
             ]
         },
         {
-            "source": "/(.*)\\.wasm",
+            "source": "/:path*.wasm",
             "headers": [
                 {
                     "key": "Content-Type",
@@ -30,10 +30,6 @@
                 {
                     "key": "X-Frame-Options",
                     "value": "DENY"
-                },
-                {
-                    "key": "X-Content-Type-Options",
-                    "value": "nosniff"
                 },
                 {
                     "key": "X-XSS-Protection",
