@@ -12,6 +12,7 @@
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^2.0.2",
     "@supabase/supabase-js": "^2.99.3",
+    "@vercel/analytics": "^2.0.1",
     "emailjs-com": "^3.2.0",
     "i18next": "^26.0.3",
     "leaflet": "^1.9.4",

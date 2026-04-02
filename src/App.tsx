@@ -15,6 +15,7 @@ import Projects from './pages/Projects'
 import Upcoming from './pages/Upcoming'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import CookieBanner from './components/CookieBanner'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 import './styles/App.css'
@@ -42,6 +43,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
+        <CookieBanner />
         </BrowserRouter>
     )
 }
