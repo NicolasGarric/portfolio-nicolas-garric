@@ -19,8 +19,6 @@ function CookieBanner() {
     const handleAccept = () => {
         localStorage.setItem('cookie-consent', 'accepted')
         setVisible(false)
-        // Recharge pour activer Analytics
-        window.location.reload()
     }
 
     const handleDecline = () => {

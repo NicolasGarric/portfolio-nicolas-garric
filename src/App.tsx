@@ -45,7 +45,11 @@ function App() {
         </Routes>
         <Footer />
         <CookieBanner />
-        <Analytics />
+        <Analytics beforeSend={(event) => {
+            const consent = localStorage.getItem('cookie-consent')
+            if (consent !== 'accepted') return null
+            return event
+        }} />
         </BrowserRouter>
     )
 }
