@@ -248,6 +248,6 @@
     }
 
     .profile__table-date {
-        display: none;
+        font-size: 1.1rem;
     }
 }
