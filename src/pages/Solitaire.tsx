@@ -3,18 +3,31 @@ import { useScore } from '../hooks/useScore'
 import './Solitaire.css'
 import init, * as SolitaireWasmModule from '../wasm/solitaire/solitaire.js'
 
-
 interface CardData {
     suit: number
     rank: number
     faceUp: boolean
 }
 
-interface DragInfo {
+interface DragState {
+    source: 'waste' | 'tableau'
+    col?: number
+    cardIdx?: number
+    startX: number
+    startY: number
+    currentX: number
+    currentY: number
+    active: boolean
+}
+
+interface SelectedCard {
     source: 'waste' | 'tableau'
     col?: number
     cardIdx?: number
 }
+
+const SUIT_NAMES = ['spade', 'heart', 'diamond', 'club']
+const RANK_NAMES = ['1','2','3','4','5','6','7','8','9','10','jack','queen','king']
 
 function Solitaire() {
     const { saveScore } = useScore()
@@ -22,72 +35,49 @@ function Solitaire() {
     const [wasmReady, setWasmReady] = useState(false)
     const [started, setStarted] = useState(false)
     const [won, setWon] = useState(false)
+    const [autoCompleting, setAutoCompleting] = useState(false)
 
     const [tableau, setTableau] = useState<CardData[][]>([])
     const [wasteTop, setWasteTop] = useState<CardData | null>(null)
     const [stockCount, setStockCount] = useState(0)
     const [foundations, setFoundations] = useState<number[]>([-1, -1, -1, -1])
     const [foundationSuits, setFoundationSuits] = useState<number[]>([-1, -1, -1, -1])
-    const [score, setScore] = useState(0)
     const [moves, setMoves] = useState(0)
 
-    const [dragInfo, setDragInfo] = useState<DragInfo | null>(null)
-    const [selected, setSelected] = useState<{
-        source: 'waste' | 'tableau'
-        col?: number
-        cardIdx?: number
-    } | null>(null)
+    const [drag, setDrag] = useState<DragState | null>(null)
+    const dragRef = useRef<DragState | null>(null)
+    const [selected, setSelected] = useState<SelectedCard | null>(null)
+    const lastTapRef = useRef<{ time: number; source: string } | null>(null)
 
-    // Charge le WASM
     useEffect(() => {
         init().then(() => {
-            (window as any).SolitaireWasm = SolitaireWasmModule
+            ;(window as any).SolitaireWasm = SolitaireWasmModule
             setWasmReady(true)
         })
     }, [])
 
-    // Synchronise l'état Rust → React
     const syncState = useCallback(() => {
         if (!gameRef.current) return
-
-        // Tableau
         const raw = gameRef.current.get_tableau()
-        console.log('Raw tableau:', Array.from(raw))
         const cols: CardData[][] = []
         let i = 0
         for (let col = 0; col < 7; col++) {
             const count = raw[i++]
             const cards: CardData[] = []
             for (let c = 0; c < count; c++) {
-                cards.push({
-                    suit: raw[i++],
-                    rank: raw[i++],
-                    faceUp: raw[i++] === 1,
-                })
+                cards.push({ suit: raw[i++], rank: raw[i++], faceUp: raw[i++] === 1 })
             }
             cols.push(cards)
         }
         setTableau(cols)
-
-        // Défausse
         const waste = gameRef.current.get_waste_top()
         setWasteTop(waste.length > 0 ? { suit: waste[0], rank: waste[1], faceUp: true } : null)
-
-        // Pioche
         setStockCount(gameRef.current.get_stock_count())
-
-        // Fondations
         setFoundations(Array.from(gameRef.current.get_foundations()))
         setFoundationSuits(Array.from(gameRef.current.get_foundation_suits()))
-
-        // Stats
-        setScore(gameRef.current.get_score())
         setMoves(gameRef.current.get_moves())
-
-        // Victoire
         if (gameRef.current.is_won()) {
             setWon(true)
-            // Sauvegarde le nombre de mouvements comme score
             saveScore('solitaire', gameRef.current.get_moves())
         }
     }, [saveScore])
@@ -97,78 +87,86 @@ function Solitaire() {
         if (!wasm) return
         gameRef.current = wasm.GameState.new(Date.now())
         setWon(false)
-        setDragInfo(null)
+        setDrag(null)
+        dragRef.current = null
+        setSelected(null)
+        setAutoCompleting(false)
         syncState()
         setStarted(true)
     }
 
-    // Clique sur la pioche
     const handleStockClick = () => {
         if (!gameRef.current) return
         gameRef.current.draw_from_stock()
         syncState()
     }
 
-    // Double-clic sur défausse → fondation auto
-    const handleWasteDoubleClick = () => {
+    // ===== AUTO-COMPLETE =====
+    const runAutoComplete = useCallback(() => {
         if (!gameRef.current) return
-        gameRef.current.auto_move_waste_to_foundation()
-        syncState()
-    }
+        setAutoCompleting(true)
+        const interval = setInterval(() => {
+            if (!gameRef.current) { clearInterval(interval); return }
+            let moved = false
+            if (gameRef.current.auto_move_waste_to_foundation()) moved = true
+            if (!moved) {
+                for (let col = 0; col < 7; col++) {
+                    if (gameRef.current.auto_move_to_foundation(col)) { moved = true; break }
+                }
+            }
+            if (moved) {
+                syncState()
+            } else {
+                clearInterval(interval)
+                setAutoCompleting(false)
+            }
+        }, 120)
+    }, [syncState])
 
-    // Double-clic sur carte du tableau → fondation auto
-    const handleTableauDoubleClick = (col: number) => {
+    const canAutoComplete = useCallback(() => {
+        if (!tableau.length) return false
+        return tableau.every(col => col.every(card => card.faceUp)) && stockCount === 0 && !wasteTop
+    }, [tableau, stockCount, wasteTop])
+
+    // ===== DOUBLE TAP =====
+    const handleDoubleTap = (source: 'waste' | 'tableau', col?: number) => {
         if (!gameRef.current) return
-        gameRef.current.auto_move_to_foundation(col)
-        syncState()
-    }
-
-    // ===== DRAG & DROP =====
-    const handleDragStart = (source: 'waste' | 'tableau', col?: number, cardIdx?: number) => {
-        setDragInfo({ source, col, cardIdx })
-    }
-
-    const handleDropOnTableau = (toCol: number) => {
-        if (!dragInfo || !gameRef.current) return
-
-        if (dragInfo.source === 'waste') {
-            gameRef.current.move_waste_to_tableau(toCol)
-        } else if (dragInfo.source === 'tableau' && dragInfo.col !== undefined && dragInfo.cardIdx !== undefined) {
-            gameRef.current.move_tableau_to_tableau(dragInfo.col, dragInfo.cardIdx, toCol)
+        if (source === 'waste') {
+            gameRef.current.auto_move_waste_to_foundation()
+        } else if (col !== undefined) {
+            gameRef.current.auto_move_to_foundation(col)
         }
-
-        setDragInfo(null)
+        setSelected(null)
         syncState()
     }
 
-    const handleDropOnFoundation = (foundation: number) => {
-        if (!dragInfo || !gameRef.current) return
-
-        if (dragInfo.source === 'waste') {
-            gameRef.current.move_waste_to_foundation(foundation)
-        } else if (dragInfo.source === 'tableau' && dragInfo.col !== undefined) {
-            gameRef.current.move_tableau_to_foundation(dragInfo.col, foundation)
+    const checkDoubleTap = (key: string, source: 'waste' | 'tableau', col?: number): boolean => {
+        const now = Date.now()
+        const last = lastTapRef.current
+        if (last && last.source === key && now - last.time < 350) {
+            lastTapRef.current = null
+            handleDoubleTap(source, col)
+            return true
         }
-
-        setDragInfo(null)
-        syncState()
+        lastTapRef.current = { time: now, source: key }
+        return false
     }
 
+    // ===== TAP =====
     const handleTap = (source: 'waste' | 'tableau', col?: number, cardIdx?: number) => {
+        const key = `${source}-${col}-${cardIdx}`
+        if (checkDoubleTap(key, source, col)) return
+
         if (!selected) {
             setSelected({ source, col, cardIdx })
             return
         }
-
         if (selected.source === source && selected.col === col && selected.cardIdx === cardIdx) {
             setSelected(null)
             return
         }
-
         if (!gameRef.current) return
-
         let moved = false
-
         if (source === 'tableau' && col !== undefined) {
             if (selected.source === 'waste') {
                 moved = gameRef.current.move_waste_to_tableau(col)
@@ -176,61 +174,138 @@ function Solitaire() {
                 moved = gameRef.current.move_tableau_to_tableau(selected.col, selected.cardIdx, col)
             }
         }
-
         setSelected(null)
         if (moved) syncState()
+        else setSelected({ source, col, cardIdx })
     }
 
-    const renderCard = (
-        card: CardData,
-        key: string,
-        draggable: boolean,
-        onDragStart?: () => void,
-        onDoubleClick?: () => void,
-        style?: React.CSSProperties,
-        onTap?: () => void
+    // ===== POINTER DRAG =====
+    const handlePointerDown = (
+        e: React.PointerEvent,
+        source: 'waste' | 'tableau',
+        col?: number,
+        cardIdx?: number
     ) => {
-        const suitNames = ['spade', 'heart', 'diamond', 'club']
-        const rankNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']
-        const cardName = `${suitNames[card.suit]}_${rankNames[card.rank]}`
-        const isSelected = selected && onTap
+        if (e.button !== 0 && e.pointerType === 'mouse') return
+        e.currentTarget.setPointerCapture(e.pointerId)
+        const state: DragState = {
+            source, col, cardIdx,
+            startX: e.clientX, startY: e.clientY,
+            currentX: e.clientX, currentY: e.clientY,
+            active: false,
+        }
+        dragRef.current = state
+        setDrag({ ...state })
+    }
 
+    const handlePointerMove = (e: React.PointerEvent) => {
+        if (!dragRef.current) return
+        const dx = e.clientX - dragRef.current.startX
+        const dy = e.clientY - dragRef.current.startY
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        const updated: DragState = {
+            ...dragRef.current,
+            currentX: e.clientX,
+            currentY: e.clientY,
+            active: dist > 8,
+        }
+        dragRef.current = updated
+        if (updated.active) setDrag({ ...updated })
+    }
+
+    const handlePointerUp = (e: React.PointerEvent) => {
+        const current = dragRef.current
+        dragRef.current = null
+        setDrag(null)
+        if (!current || !current.active) {
+            handleTap(current?.source ?? 'waste', current?.col, current?.cardIdx)
+            return
+        }
+        const el = document.elementFromPoint(e.clientX, e.clientY)
+        if (!el || !gameRef.current) return
+        const target = el.closest('[data-drop-col]') as HTMLElement | null
+        const targetFoundation = el.closest('[data-drop-foundation]') as HTMLElement | null
+        if (target) {
+            const toCol = parseInt(target.dataset.dropCol!)
+            if (current.source === 'waste') {
+                gameRef.current.move_waste_to_tableau(toCol)
+            } else if (current.source === 'tableau' && current.col !== undefined && current.cardIdx !== undefined) {
+                gameRef.current.move_tableau_to_tableau(current.col, current.cardIdx, toCol)
+            }
+            syncState()
+        } else if (targetFoundation) {
+            const f = parseInt(targetFoundation.dataset.dropFoundation!)
+            if (current.source === 'waste') {
+                gameRef.current.move_waste_to_foundation(f)
+            } else if (current.source === 'tableau' && current.col !== undefined) {
+                gameRef.current.move_tableau_to_foundation(current.col, f)
+            }
+            syncState()
+        }
+    }
+
+    const isSelected = (source: 'waste' | 'tableau', col?: number, cardIdx?: number) =>
+        selected?.source === source && selected?.col === col && selected?.cardIdx === cardIdx
+
+    const isDragging = (source: 'waste' | 'tableau', col?: number, cardIdx?: number) =>
+        drag?.active && drag.source === source && drag.col === col && drag.cardIdx === cardIdx
+
+    const renderSVGCard = (card: CardData) => (
+        <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
+            <use href={`/svg-cards.svg#${SUIT_NAMES[card.suit]}_${RANK_NAMES[card.rank]}`} x="0" y="0" />
+        </svg>
+    )
+
+    const renderBack = () => (
+        <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
+            <use href="/svg-cards.svg#back" x="0" y="0" />
+        </svg>
+    )
+
+    const renderDragGhost = () => {
+        if (!drag?.active) return null
+        const isMobile = window.innerWidth < 560
+        const w = isMobile ? 36 : 80
+        const h = isMobile ? 50 : 112
+        let card: CardData | null = null
+        if (drag.source === 'waste' && wasteTop) card = wasteTop
+        else if (drag.source === 'tableau' && drag.col !== undefined && drag.cardIdx !== undefined) {
+            card = tableau[drag.col]?.[drag.cardIdx] ?? null
+        }
+        if (!card) return null
         return (
-            <div
-                key={key}
-                className={`sol-card sol-card--svg ${draggable ? 'sol-card--draggable' : ''} ${isSelected ? 'sol-card--selected' : ''}`}
-                draggable={draggable}
-                onDragStart={draggable ? onDragStart : undefined}
-                onDoubleClick={onDoubleClick}
-                onClick={onTap}
-                style={style}
-            >
+            <div style={{
+                position: 'fixed',
+                left: drag.currentX - w / 2,
+                top: drag.currentY - h / 2,
+                width: w, height: h,
+                pointerEvents: 'none',
+                zIndex: 9999,
+                opacity: 0.85,
+                transform: 'rotate(3deg)',
+                filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.6))',
+            }}>
                 <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
-                    <use href={`/svg-cards.svg#${cardName}`} x="0" y="0" />
+                    <use href={`/svg-cards.svg#${SUIT_NAMES[card.suit]}_${RANK_NAMES[card.rank]}`} x="0" y="0" />
                 </svg>
             </div>
         )
     }
 
-    const renderCardBack = (key: string, style?: React.CSSProperties) => (
-        <div key={key} className="sol-card sol-card--svg sol-card--back-svg" style={style}>
-            <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
-                <use href="/svg-cards.svg#back" x="0" y="0" />
-            </svg>
-        </div>
-    )
-
     return (
-        <main className="page">
+        <main className="page" onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}>
             <section className="sol-page">
 
-                {/* Header */}
                 <div className="sol-header">
                     <h1 className="sol-title">🃏 Solitaire</h1>
                     {started && (
                         <div className="sol-stats">
-                            <span className="sol-stat">⭐ {score} pts</span>
                             <span className="sol-stat">🔄 {moves} mouvements</span>
+                            {canAutoComplete() && !autoCompleting && (
+                                <button className="sol-autocomplete-btn" onClick={runAutoComplete}>
+                                    ✨ Terminer
+                                </button>
+                            )}
                             <button className="sol-new-game" onClick={startGame}>
                                 Nouvelle partie
                             </button>
@@ -238,7 +313,6 @@ function Solitaire() {
                     )}
                 </div>
 
-                {/* Écran d'accueil */}
                 {!started && (
                     <div className="sol-overlay">
                         <p className="sol-overlay__emoji">🃏</p>
@@ -249,51 +323,33 @@ function Solitaire() {
                         <div className="sol-rules">
                             <p>♠♥♦♣ — 4 fondations As → Roi</p>
                             <p>Alternance rouge/noir dans le tableau</p>
-                            <p>Double-clic pour envoyer en fondation</p>
+                            <p>Double-tap/clic pour envoyer en fondation</p>
                             <p>Glisser-déposer pour déplacer</p>
                         </div>
-                        <button
-                            className="sol-btn"
-                            onClick={startGame}
-                            disabled={!wasmReady}
-                        >
+                        <button className="sol-btn" onClick={startGame} disabled={!wasmReady}>
                             {wasmReady ? 'Jouer' : 'Chargement...'}
                         </button>
                     </div>
                 )}
 
-                {/* Victoire */}
                 {won && (
                     <div className="sol-overlay sol-overlay--won">
                         <p className="sol-overlay__emoji">🎉</p>
                         <h2 className="sol-overlay__title">Bravo !</h2>
-                        <p className="sol-overlay__score">{score} pts</p>
-                        <p className="sol-overlay__text">
-                            Terminé en {moves} mouvements !
-                        </p>
-                        <button className="sol-btn" onClick={startGame}>
-                            Rejouer
-                        </button>
+                        <p className="sol-overlay__score">{moves} coups</p>
+                        <p className="sol-overlay__text">Partie terminée !</p>
+                        <button className="sol-btn" onClick={startGame}>Rejouer</button>
                     </div>
                 )}
 
-                {/* Jeu */}
                 {started && !won && (
                     <div className="sol-game">
-
-                        {/* Zone du haut — pioche + fondations */}
                         <div className="sol-top">
 
-                            {/* Pioche */}
-                            <div
-                                className="sol-stock"
-                                onClick={handleStockClick}
-                            >
+                            <div className="sol-stock" onClick={handleStockClick}>
                                 {stockCount > 0 ? (
                                     <div className="sol-card" style={{ position: 'relative' }}>
-                                        <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
-                                            <use href="/svg-cards.svg#back" x="0" y="0" />
-                                        </svg>
+                                        {renderBack()}
                                         <span className="sol-stock__count">{stockCount}</span>
                                     </div>
                                 ) : (
@@ -301,18 +357,19 @@ function Solitaire() {
                                 )}
                             </div>
 
-                            {/* Défausse */}
                             <div className="sol-waste">
                                 {wasteTop ? (
-                                    renderCard(
-                                        wasteTop,
-                                        'waste-top',
-                                        true,
-                                        () => handleDragStart('waste'),
-                                        handleWasteDoubleClick,
-                                        undefined,
-                                        () => handleTap('waste')
-                                    )
+                                    <div
+                                        className={`sol-card sol-card--svg sol-card--draggable
+                                            ${isSelected('waste') ? 'sol-card--selected' : ''}
+                                            ${isDragging('waste') ? 'sol-card--dragging' : ''}
+                                        `}
+                                        onPointerDown={e => handlePointerDown(e, 'waste')}
+                                        onDoubleClick={() => handleDoubleTap('waste')}
+                                        style={{ touchAction: 'none' }}
+                                    >
+                                        {renderSVGCard(wasteTop)}
+                                    </div>
                                 ) : (
                                     <div className="sol-empty-slot" />
                                 )}
@@ -320,22 +377,16 @@ function Solitaire() {
 
                             <div className="sol-spacer" />
 
-                            {/* Fondations */}
                             {[0, 1, 2, 3].map(f => (
                                 <div
                                     key={f}
                                     className="sol-foundation"
-                                    onDragOver={e => e.preventDefault()}
-                                    onDrop={() => handleDropOnFoundation(f)}
+                                    data-drop-foundation={f}
                                 >
                                     {foundations[f] >= 0 ? (
-                                        <div className="sol-card sol-card--svg">
+                                        <div className={`sol-card sol-card--svg ${autoCompleting ? 'sol-card--autocomplete' : ''}`}>
                                             <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
-                                                <use href={`/svg-cards.svg#${
-                                                    ['spade', 'heart', 'diamond', 'club'][foundationSuits[f]]
-                                                }_${
-                                                    ['1','2','3','4','5','6','7','8','9','10','jack','queen','king'][foundations[f]]
-                                                }`} x="0" y="0" />
+                                                <use href={`/svg-cards.svg#${SUIT_NAMES[foundationSuits[f]]}_${RANK_NAMES[foundations[f]]}`} x="0" y="0" />
                                             </svg>
                                         </div>
                                     ) : (
@@ -347,7 +398,6 @@ function Solitaire() {
                             ))}
                         </div>
 
-                        {/* Tableau */}
                         <div className="sol-tableau">
                             {tableau.map((col, colIdx) => {
                                 const isMobile = window.innerWidth < 560
@@ -359,50 +409,55 @@ function Solitaire() {
                                         : (col.length - 1) * faceDownOff)
                                     : 0
                                 return (
-                                <div
-                                    key={colIdx}
-                                    className="sol-column"
-                                    style={col.length > 0 ? {
-                                        height: `calc(var(--sol-card-h) + ${lastTop}px)`
-                                    } : undefined}
-                                    onDragOver={e => e.preventDefault()}
-                                    onDrop={() => handleDropOnTableau(colIdx)}
-                                >
-                                    {col.length === 0 ? (
-                                        <div className="sol-empty-slot sol-empty-slot--king">
-                                            K
-                                        </div>
-                                    ) : (
-                                        col.map((card, cardIdx) => (
-                                            card.faceUp
-                                                ? renderCard(
-                                                    card,
-                                                    `col-${colIdx}-${cardIdx}`,
-                                                    true,
-                                                    () => handleDragStart('tableau', colIdx, cardIdx),
-                                                    cardIdx === col.length - 1
-                                                        ? () => handleTableauDoubleClick(colIdx)
-                                                        : undefined,
-                                                    {
-                                                        top: `${cardIdx * (window.innerWidth < 560 ? 14 : 22)}px`
-                                                    },
-                                                    () => handleTap('tableau', colIdx, cardIdx)
+                                    <div
+                                        key={colIdx}
+                                        className="sol-column"
+                                        data-drop-col={colIdx}
+                                        style={col.length > 0 ? {
+                                            height: `calc(var(--sol-card-h) + ${lastTop}px)`
+                                        } : undefined}
+                                    >
+                                        {col.length === 0 ? (
+                                            <div className="sol-empty-slot sol-empty-slot--king">K</div>
+                                        ) : (
+                                            col.map((card, cardIdx) => (
+                                                card.faceUp ? (
+                                                    <div
+                                                        key={`col-${colIdx}-${cardIdx}`}
+                                                        className={`sol-card sol-card--svg sol-card--draggable
+                                                            ${isSelected('tableau', colIdx, cardIdx) ? 'sol-card--selected' : ''}
+                                                            ${isDragging('tableau', colIdx, cardIdx) ? 'sol-card--dragging' : ''}
+                                                        `}
+                                                        style={{
+                                                            top: `${cardIdx * (isMobile ? 14 : 22)}px`,
+                                                            touchAction: 'none',
+                                                        }}
+                                                        onPointerDown={e => handlePointerDown(e, 'tableau', colIdx, cardIdx)}
+                                                        onDoubleClick={cardIdx === col.length - 1
+                                                            ? () => handleDoubleTap('tableau', colIdx)
+                                                            : undefined}
+                                                    >
+                                                        {renderSVGCard(card)}
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        key={`col-${colIdx}-${cardIdx}-back`}
+                                                        className="sol-card sol-card--svg"
+                                                        style={{ top: `${cardIdx * (isMobile ? 10 : 16)}px` }}
+                                                    >
+                                                        {renderBack()}
+                                                    </div>
                                                 )
-                                                : renderCardBack(
-                                                    `col-${colIdx}-${cardIdx}-back`,
-                                                    {
-                                                        top: `${cardIdx * (window.innerWidth < 560 ? 10 : 16)}px`
-                                                    }
-                                                )
-                                        ))
-                                    )}
-                                </div>
+                                            ))
+                                        )}
+                                    </div>
                                 )
                             })}
                         </div>
-
                     </div>
                 )}
+
+                {renderDragGhost()}
 
             </section>
         </main>

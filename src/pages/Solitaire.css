@@ -294,6 +294,38 @@
     .sol-top { gap: 0.8rem; }
 }
 
+.sol-card--dragging {
+    opacity: 0.3;
+}
+
+.sol-card--selected {
+    filter: drop-shadow(0 0 1.2rem rgba(132, 94, 247, 0.9));
+    transform: translateY(-0.4rem);
+}
+
+.sol-card--autocomplete {
+    animation: card-land 0.3s ease;
+}
+
+@keyframes card-land {
+    0% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.sol-autocomplete-btn {
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: var(--gradient-main);
+    color: var(--text-primary);
+    transition: opacity var(--transition);
+    cursor: pointer;
+    border: none;
+}
+
+.sol-autocomplete-btn:hover { opacity: 0.85; }
+
 /* ===== MOBILE ===== */
 /* Cartes en vw pour remplir toute la largeur : (100vw - 2×1.2rem padding - 6×0.3rem gaps) / 7 */
 @media (max-width: 56rem) {
