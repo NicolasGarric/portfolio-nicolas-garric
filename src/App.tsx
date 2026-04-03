@@ -18,6 +18,7 @@ import Register from './pages/Register'
 import CookieBanner from './components/CookieBanner'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
+import { Analytics } from '@vercel/analytics/react'
 import './styles/App.css'
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         </Routes>
         <Footer />
         <CookieBanner />
+        <Analytics />
         </BrowserRouter>
     )
 }
