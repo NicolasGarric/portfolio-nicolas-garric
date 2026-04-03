@@ -148,6 +148,11 @@
     transition: filter var(--transition);
 }
 
+.sol-card--selected {
+    filter: drop-shadow(0 0 1.2rem rgba(132, 94, 247, 0.9));
+    transform: translateY(-0.4rem);
+}
+
 .sol-card--draggable { cursor: grab; }
 .sol-card--draggable:active {
     cursor: grabbing;

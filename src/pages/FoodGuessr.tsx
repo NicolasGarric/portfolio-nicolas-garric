@@ -208,14 +208,11 @@ function FoodGuessr() {
             }, 800)
         }
     }
-
+    
     const handleSkip = () => {
         if (!gameRef.current || roundOver || !currentMeal) return
-
         const correctC = PLAYABLE_COUNTRIES.find(c => c.mealdbArea === currentMeal.strArea)
         if (!correctC) return
-
-        // Soumet une mauvaise réponse pour avancer sans points
         gameRef.current.submit_answer(0)
         setRoundScore(0)
         setRoundOver(true)
@@ -224,29 +221,32 @@ function FoodGuessr() {
         setMapZoom(5)
     }
 
-    // Round suivant
+    // Next round
     const handleNextRound = () => {
         if (!gameRef.current) return
 
-        gameRef.current.next_round()
+        const nextRound = currentRound + 1
 
-        if (gameRef.current.is_game_over()) {
+        // Vérifie si c'était le dernier round
+        if (nextRound >= TOTAL_ROUNDS) {
             setGameOver(true)
             saveScore('food-guessr', gameRef.current.get_total_score())
             return
         }
 
-        const nextRound = currentRound + 1
+        gameRef.current.next_round()
+
         setCurrentRound(nextRound)
         setCurrentMeal(meals[nextRound])
         setGuesses([])
         setRoundOver(false)
         setCorrectCountry(null)
         setRoundScore(0)
-        setPotentialScore(1000)
+        setPotentialScore(1000)  // ← Fix bug score
         setMapCenter(null)
         setMapZoom(2)
         setInput('')
+        setSuggestions([])
     }
 
     return (

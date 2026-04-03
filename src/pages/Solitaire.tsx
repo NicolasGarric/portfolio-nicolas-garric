@@ -32,6 +32,11 @@ function Solitaire() {
     const [moves, setMoves] = useState(0)
 
     const [dragInfo, setDragInfo] = useState<DragInfo | null>(null)
+    const [selected, setSelected] = useState<{
+        source: 'waste' | 'tableau'
+        col?: number
+        cardIdx?: number
+    } | null>(null)
 
     // Charge le WASM
     useEffect(() => {
@@ -149,34 +154,58 @@ function Solitaire() {
         syncState()
     }
 
+    const handleTap = (source: 'waste' | 'tableau', col?: number, cardIdx?: number) => {
+        if (!selected) {
+            setSelected({ source, col, cardIdx })
+            return
+        }
+
+        if (selected.source === source && selected.col === col && selected.cardIdx === cardIdx) {
+            setSelected(null)
+            return
+        }
+
+        if (!gameRef.current) return
+
+        let moved = false
+
+        if (source === 'tableau' && col !== undefined) {
+            if (selected.source === 'waste') {
+                moved = gameRef.current.move_waste_to_tableau(col)
+            } else if (selected.source === 'tableau' && selected.col !== undefined && selected.cardIdx !== undefined) {
+                moved = gameRef.current.move_tableau_to_tableau(selected.col, selected.cardIdx, col)
+            }
+        }
+
+        setSelected(null)
+        if (moved) syncState()
+    }
+
     const renderCard = (
         card: CardData,
         key: string,
         draggable: boolean,
         onDragStart?: () => void,
         onDoubleClick?: () => void,
-        style?: React.CSSProperties
+        style?: React.CSSProperties,
+        onTap?: () => void
     ) => {
-        // Noms des couleurs selon svg-cards
         const suitNames = ['spade', 'heart', 'diamond', 'club']
-        // Noms des rangs selon svg-cards (1=As, puis 2-10, jack, queen, king)
         const rankNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']
         const cardName = `${suitNames[card.suit]}_${rankNames[card.rank]}`
+        const isSelected = selected && onTap
 
         return (
             <div
                 key={key}
-                className={`sol-card sol-card--svg ${draggable ? 'sol-card--draggable' : ''}`}
+                className={`sol-card sol-card--svg ${draggable ? 'sol-card--draggable' : ''} ${isSelected ? 'sol-card--selected' : ''}`}
                 draggable={draggable}
                 onDragStart={draggable ? onDragStart : undefined}
                 onDoubleClick={onDoubleClick}
+                onClick={onTap}
                 style={style}
             >
-                <svg
-                    viewBox="0 0 169.075 244.640"
-                    width="100%"
-                    height="100%"
-                >
+                <svg viewBox="0 0 169.075 244.640" width="100%" height="100%">
                     <use href={`/svg-cards.svg#${cardName}`} x="0" y="0" />
                 </svg>
             </div>
@@ -280,7 +309,9 @@ function Solitaire() {
                                         'waste-top',
                                         true,
                                         () => handleDragStart('waste'),
-                                        handleWasteDoubleClick
+                                        handleWasteDoubleClick,
+                                        undefined,
+                                        () => handleTap('waste')
                                     )
                                 ) : (
                                     <div className="sol-empty-slot" />
@@ -354,7 +385,8 @@ function Solitaire() {
                                                         : undefined,
                                                     {
                                                         top: `${cardIdx * (window.innerWidth < 560 ? 14 : 22)}px`
-                                                    }
+                                                    },
+                                                    () => handleTap('tableau', colIdx, cardIdx)
                                                 )
                                                 : renderCardBack(
                                                     `col-${colIdx}-${cardIdx}-back`,
