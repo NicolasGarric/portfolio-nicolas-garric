@@ -28,9 +28,9 @@ function Header() {
             {/* Nav desktop */}
             <nav className="header__nav">
                 <Link to="/" className="header__link">{t('nav.home')}</Link>
-                <Link to="/games" className="header__link">{t('nav.games')}</Link>
                 <Link to="/projects" className="header__link">{t('nav.projects')}</Link>
                 <Link to="/upcoming" className="header__link">{t('nav.upcoming')}</Link>
+                <Link to="/games" className="header__link">{t('nav.games')}</Link>
                 <Link to="/contact" className="header__link">{t('nav.contact')}</Link>
                 <Link to="/leaderboard" className="header__link">🏆 {t('nav.leaderboard')}</Link>
 
@@ -77,11 +77,11 @@ function Header() {
                         </button>
 
                         <Link to="/" className="header__modal-link" onClick={closeMenu}>{t('nav.home')}</Link>
+                        <Link to="/projects" className="header__modal-link" onClick={closeMenu}>{t('nav.projects')}</Link>
+                        <Link to="/upcoming" className="header__modal-link" onClick={closeMenu}>{t('nav.upcoming')}</Link>
                         <Link to="/games" className="header__modal-link" onClick={closeMenu}>{t('nav.games')}</Link>
                         <Link to="/contact" className="header__modal-link" onClick={closeMenu}>{t('nav.contact')}</Link>
                         <Link to="/leaderboard" className="header__modal-link" onClick={closeMenu}>🏆 {t('nav.leaderboard')}</Link>
-                        <Link to="/projects" className="header__modal-link" onClick={closeMenu}>{t('nav.projects')}</Link>
-                        <Link to="/upcoming" className="header__modal-link" onClick={closeMenu}>{t('nav.upcoming')}</Link>
 
                         {user ? (
                             <>

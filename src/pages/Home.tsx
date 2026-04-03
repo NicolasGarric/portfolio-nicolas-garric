@@ -8,12 +8,6 @@ function Home() {
 
     const sections = [
         {
-            label: t('nav.games'),
-            description: t('home.games_desc'),
-            emoji: '🎮',
-            path: '/games',
-        },
-        {
             label: t('nav.projects'),
             description: t('home.projects_desc'),
             emoji: '🌐',
@@ -24,6 +18,12 @@ function Home() {
             description: t('home.upcoming_desc'),
             emoji: '🚀',
             path: '/upcoming',
+        },
+        {
+            label: t('nav.games'),
+            description: t('home.games_desc'),
+            emoji: '🎮',
+            path: '/games',
         },
     ]
 
