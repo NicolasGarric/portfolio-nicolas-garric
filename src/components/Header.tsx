@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../contexts/AuthContext'
@@ -18,6 +19,7 @@ function Header() {
     }
 
     return (
+        <>
         <header className="header">
             <Link to="/" className="header__logo">
                 Nicolas Garric
@@ -64,8 +66,10 @@ function Header() {
                 ☰
             </button>
 
-            {/* Overlay + modal mobile */}
-            {menuOpen && (
+        </header>
+
+            {/* Overlay + modal mobile — portail hors du header pour éviter les conflits de z-index */}
+            {menuOpen && createPortal(
                 <div className="header__overlay" onClick={closeMenu}>
                     <nav className="header__modal" onClick={e => e.stopPropagation()}>
                         <button className="header__modal-close" onClick={closeMenu} aria-label="Fermer">
@@ -110,9 +114,10 @@ function Header() {
                             {i18n.language === 'fr' ? '🇬🇧 English' : '🇫🇷 Français'}
                         </button>
                     </nav>
-                </div>
+                </div>,
+                document.body
             )}
-        </header>
+        </>
     )
 }
 
