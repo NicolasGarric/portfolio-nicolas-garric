@@ -18,6 +18,7 @@ export class GameState {
     static new(): GameState;
     next_round(): void;
     set_current_answer(answer: string): void;
+    skip_round(): void;
     submit_answer(correct: number): number;
 }
 
@@ -39,6 +40,7 @@ export interface InitOutput {
     readonly gamestate_new: () => number;
     readonly gamestate_next_round: (a: number) => void;
     readonly gamestate_set_current_answer: (a: number, b: number, c: number) => void;
+    readonly gamestate_skip_round: (a: number) => void;
     readonly gamestate_submit_answer: (a: number, b: number) => number;
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;

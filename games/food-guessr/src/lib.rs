@@ -29,6 +29,14 @@ impl GameState {
         }
     }
 
+    pub fn skip_round(&mut self) {
+        if self.round_over || self.game_over {
+            return;
+        }
+        self.round_over = true;
+        self.round_score = 0;
+    }
+
     pub fn set_current_answer(&mut self, answer: String) {
         self.current_answer = normalize_string(&answer);
     }

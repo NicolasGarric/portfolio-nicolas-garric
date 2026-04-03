@@ -15,6 +15,7 @@ export const gamestate_is_round_over: (a: number) => number;
 export const gamestate_new: () => number;
 export const gamestate_next_round: (a: number) => void;
 export const gamestate_set_current_answer: (a: number, b: number, c: number) => void;
+export const gamestate_skip_round: (a: number) => void;
 export const gamestate_submit_answer: (a: number, b: number) => number;
 export const __wbindgen_externrefs: WebAssembly.Table;
 export const __wbindgen_free: (a: number, b: number, c: number) => void;

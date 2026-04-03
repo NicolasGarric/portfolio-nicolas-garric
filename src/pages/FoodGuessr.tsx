@@ -208,12 +208,12 @@ function FoodGuessr() {
             }, 800)
         }
     }
-    
+
     const handleSkip = () => {
         if (!gameRef.current || roundOver || !currentMeal) return
         const correctC = PLAYABLE_COUNTRIES.find(c => c.mealdbArea === currentMeal.strArea)
         if (!correctC) return
-        gameRef.current.submit_answer(0)
+        gameRef.current.skip_round()
         setRoundScore(0)
         setRoundOver(true)
         setCorrectCountry(correctC)

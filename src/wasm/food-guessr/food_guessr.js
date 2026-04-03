@@ -114,6 +114,9 @@ export class GameState {
         const len0 = WASM_VECTOR_LEN;
         wasm.gamestate_set_current_answer(this.__wbg_ptr, ptr0, len0);
     }
+    skip_round() {
+        wasm.gamestate_skip_round(this.__wbg_ptr);
+    }
     /**
      * @param {number} correct
      * @returns {number}
