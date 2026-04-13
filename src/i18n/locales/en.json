@@ -43,13 +43,13 @@
         "p0_title": "Games Portfolio",
         "p0_desc": "Interactive portfolio based in Rust/WebAssembly.",
         "p1_title": "Pastry & Culinary Lab Showcase",
-        "p1_desc": "Showcase website for a pastry and culinary lab in Bordeaux — Next.js · TypeScript · Supabase · EmailJS · SCSS BEM · Vercel — Secure admin interface (JWT, RLS, rate limiting)",
+        "p1_desc": "Showcase website for a pastry and culinary lab in Bordeaux. Secure admin interface.",
         "p2_title": "Photographer Showcase Site",
         "p2_desc": "Creating a showcase site for a photographer in order to show his art.",
         "p3_title": "Tower Defense Full Game",
         "p3_desc": "Creating a full tower defense game inspired by FTL and Mindustry.",
         "p4_title": "Mobile party game with friends",
-        "p4_desc": "Development of an all-in-one mobile party game with general knowledge, calculations, and visuals — Tauri v2 · Rust · SQLite · HTML/CSS/JS — Quiz, Drawing, Photo, Math · iOS & Android · FR/EN"
+        "p4_desc": "Development of an all-in-one mobile party game with general knowledge, calculations, and visuals. Quiz, Drawing, Photo, Math in FR/EN"
     },
     "contact": {
         "title": "Contact me",
