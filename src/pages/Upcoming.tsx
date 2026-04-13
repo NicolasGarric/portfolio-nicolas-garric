@@ -3,9 +3,10 @@ import './Upcoming.css'
 
 const upcomingProjects = [
     { titleKey: 'upcoming.p0_title', descKey: 'upcoming.p0_desc', technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'], progress: 80, status: 'inProgress' },
-    { titleKey: 'upcoming.p1_title', descKey: 'upcoming.p1_desc', technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'], progress: 80, status: 'inProgress' },
+    { titleKey: 'upcoming.p1_title', descKey: 'upcoming.p1_desc', technologies: ['Next.js', 'TypeScript', 'Supabase', 'EmailJS', 'SCSS BEM', 'Vercel'], progress: 80, status: 'inProgress' },
     { titleKey: 'upcoming.p2_title', descKey: 'upcoming.p2_desc', technologies: ['React', 'TypeScript', 'Rust', 'WebAssembly'], progress: 20, status: 'planned' },
     { titleKey: 'upcoming.p3_title', descKey: 'upcoming.p3_desc', technologies: ['Rust', 'React'], progress: 10, status: 'planned' },
+    { titleKey: 'upcoming.p4_title', descKey: 'upcoming.p4_desc', technologies: ['Tauri v2', 'Rust', 'SQLite', 'HTML/CSS/JS', 'iOS', 'Android', 'FR/EN'], progress: 40, status: 'inProgress' },
 ]
 
 function Upcoming() {

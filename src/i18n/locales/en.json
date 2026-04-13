@@ -42,12 +42,14 @@
         },
         "p0_title": "Games Portfolio",
         "p0_desc": "Interactive portfolio based in Rust/WebAssembly.",
-        "p1_title": "Dark Kitchen Showcase Site",
-        "p1_desc": "Creating a showcase site for a dark kitchen in Bordeaux, France.",
+        "p1_title": "Current projects:",
+        "p1_desc": "Showcase website for a pastry and culinary lab in Bordeaux — Next.js · TypeScript · Supabase · EmailJS · SCSS BEM · Vercel — Secure admin interface (JWT, RLS, rate limiting) — In development",
         "p2_title": "Photographer Showcase Site",
         "p2_desc": "Creating a showcase site for a photographer in order to show his art.",
         "p3_title": "Tower Defense Full Game",
-        "p3_desc": "Creating a full tower defense game inspired by FTL and Mindustry."
+        "p3_desc": "Creating a full tower defense game inspired by FTL and Mindustry.",
+        "p4_title": "Current projects: Mobile party game with friends",
+        "p4_desc": "Development of an all-in-one mobile party game with general knowledge, calculations, and visuals — Tauri v2 · Rust · SQLite · HTML/CSS/JS — Quiz, Drawing, Photo, Math · iOS & Android · FR/EN — In progress"
     },
     "contact": {
         "title": "Contact me",

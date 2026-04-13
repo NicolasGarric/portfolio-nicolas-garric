@@ -42,12 +42,14 @@
         },
         "p0_title": "Portfolio de jeux",
         "p0_desc": "Portfolio interactif basé sur Rust/WebAssembly.",
-        "p1_title": "Site vitrine dark kitchen",
-        "p1_desc": "Création d'un site vitrine pour une dark kitchen à Bordeaux.",
+        "p1_title": "Projets en cours :",
+        "p1_desc": "Site vitrine pour laboratoire de pâtisserie et de cuisine à Bordeaux — Next.js · TypeScript · Supabase · EmailJS · SCSS BEM · Vercel — Interface d'administration sécurisée (JWT, RLS, rate limiting) — En développement",
         "p2_title": "Site vitrine photographe",
         "p2_desc": "Création d'un site vitrine pour un photographe afin d'exposer son travail.",
         "p3_title": "Tower Defense complet",
-        "p3_desc": "Création d'un jeu Tower Defense inspiré de FTL et Mindustry."
+        "p3_desc": "Création d'un jeu Tower Defense inspiré de FTL et Mindustry.",
+        "p4_title": "Projets en cours : Jeu mobile de soirée entre amis",
+        "p4_desc": "Développement d'un jeu de soirée mobile tout-en-un avec culture générale, calculs et visuels — Tauri v2 · Rust · SQLite · HTML/CSS/JS — Quiz, Dessin, Photo, Calcul · iOS & Android · FR/EN — En cours"
     },
     "contact": {
         "title": "Me contacter",
